@@ -1,5 +1,5 @@
-FILES=$(shell find . -type f)
-DIRS=$(shell find . -type d)
+FILES=$(shell find src -type f)
+DIRS=$(shell find src -type d)
 
 DIRMODE=0755
 FILEMODE=0644
