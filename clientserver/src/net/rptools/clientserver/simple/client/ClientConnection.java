@@ -24,6 +24,8 @@
  */
 package net.rptools.clientserver.simple.client;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -111,7 +113,7 @@ public class ClientConnection extends AbstractConnection {
 
         public SendThread(ClientConnection conn, OutputStream out) {
             this.conn = conn;
-            this.out = out;
+            this.out = new BufferedOutputStream(out);
         }
 
         public void requestStop() {
@@ -130,6 +132,8 @@ public class ClientConnection extends AbstractConnection {
                             try {
                                 byte[] message = conn.outQueue.remove(0);
                                 conn.writeMessage(out, message);
+                                
+                                out.flush();
                             } catch (IndexOutOfBoundsException e) {
                                 // just ignore and wait
                             }
@@ -162,7 +166,7 @@ public class ClientConnection extends AbstractConnection {
 
         public ReceiveThread(ClientConnection conn, InputStream in) {
             this.conn = conn;
-            this.in = in;
+            this.in = new BufferedInputStream(in);
         }
 
         public void requestStop() {

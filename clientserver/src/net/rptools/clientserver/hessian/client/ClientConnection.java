@@ -33,9 +33,6 @@ import net.rptools.clientserver.hessian.HessianUtils;
 
 /**
  * @author drice
- * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
  */
 public class ClientConnection extends net.rptools.clientserver.simple.client.ClientConnection {
 
@@ -48,6 +45,8 @@ public class ClientConnection extends net.rptools.clientserver.simple.client.Cli
     }
 
     public void callMethod(String method, Object... parameters) {
-        sendMessage(HessianUtils.methodToBytes(method, parameters));
+
+    	byte[] message = HessianUtils.methodToBytes(method, parameters);
+        sendMessage(message);
     }
 }
