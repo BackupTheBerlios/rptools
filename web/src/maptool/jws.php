@@ -23,8 +23,8 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 	<resources>
 		<j2se version="1.5+" java-vm-args="-Xms64m -Xmx128m"/>
 		
-		<jar href="maptool-1.0M1.b7.jar" />
-		<jar href="lib/clientserver-1.0.b4.jar" />		
+		<jar href="maptool-1.0M1.b9.jar" />
+		<jar href="lib/clientserver-1.0.b6.jar" />		
 		<jar href="lib/hessian-2.1.12.jar" />		
 		<jar href="lib/looks-1.3b1.jar" />		
 		<jar href="lib/withay-util.jar" />		
