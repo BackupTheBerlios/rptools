@@ -17,8 +17,8 @@ permissions:
 
 
 beta: $(FILES) permissions
-	. .rsync beta
+	./.rsync beta
 
 live: $(FILES) permissions
-	. .rsync
+	./.rsync
     
