@@ -1,0 +1,2 @@
+rsync -ave 'ssh -x' ./ michaelrice@shell.sourceforge.net:/home/groups/r/rp/rptools/htdocs$1/ --exclude .htaccess
+

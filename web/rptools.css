@@ -1,0 +1,14 @@
+BODY {
+    margin:         3em;
+    font-family:    sans-serif;
+    line-height:    1.1;
+    background:     #EEEEEE;
+    color:          black;
+}
+CODE {
+    font-size:      15pt;
+}
+
+A:link, A:active, A:visited { color: blue; text-decoration: none; }
+A:hover { text-decoration: underline; }
+

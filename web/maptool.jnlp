@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+  spec="1.5+"
+  codebase="http://rptools.sourceforge.net/beta/"
+  href="maptool.jnlp">
+  <information>
+    <title>Map Tool</title>
+    <vendor>Role Playing Tools</vendor>
+  </information>
+
+  <security>
+      <all-permissions/>
+  </security>
+
+  <resources>
+    <j2se version="1.5+" java-vm-args="-Xms64m -Xmx128m" />
+
+    <jar href="maptool.jar"/>
+
+  </resources>
+
+  <application-desc main-class="net.rptools.dnd.maptool.MapTool"/>
+</jnlp> 
+
