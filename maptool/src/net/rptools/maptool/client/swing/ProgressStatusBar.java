@@ -1,5 +1,5 @@
 /*
- * $Id: ProgressStatusBar.java,v 1.1 2005/03/28 22:00:13 tcroft Exp $
+ * $Id: ProgressStatusBar.java,v 1.2 2005/03/29 04:56:50 tcroft Exp $
  *
  * Copyright (C) 2005, Digital Motorworks LP, a wholly owned subsidiary of ADP.
  * The contents of this file are protected under the copyright laws of the
@@ -79,59 +79,6 @@ public class ProgressStatusBar extends JProgressBar {
             setMaximum(0);
             setValue(0);
         }
-    }
-    
-    public static void main(String[] args) throws Exception{
-        
-        JFrame frame = new JFrame();
-        frame.setSize(100,50);
-        frame.setLocation(500,300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        ProgressStatusBar progressBar = new ProgressStatusBar();
-        
-        frame.getContentPane().setLayout(new FlowLayout());
-        frame.getContentPane().add(progressBar);
-        
-        frame.setVisible(true);
-
-        Thread.sleep(1000);
-
-        progressBar.startDeterminate(5);
-        
-        Thread.sleep(1000);
-        progressBar.updateDeterminateProgress(1);
-        
-        Thread.sleep(1000);
-        progressBar.updateDeterminateProgress(1);
-        
-        Thread.sleep(1000);
-        progressBar.updateDeterminateProgress(1);
-        
-        Thread.sleep(1000);
-        progressBar.updateDeterminateProgress(1);
-        
-        Thread.sleep(1000);
-        progressBar.updateDeterminateProgress(1);
-        
-        Thread.sleep(1000);
-        progressBar.endDeterminate();
-        
-//        progressBar.startIndeterminate();
-//        
-//        Thread.sleep(1000);
-//
-//        progressBar.startIndeterminate();
-//        
-//        Thread.sleep(1000);
-//        
-//        progressBar.endIndeterminate();
-//        
-//        Thread.sleep(1000);
-//        
-//        progressBar.endIndeterminate();
-
-        System.out.println("done");
     }
     
 }
