@@ -8,14 +8,17 @@ all:    beta
 
 .PHONY: beta
 .PHONY: live
+.PHONY: permissions
 
-beta: $(FILES)
-	chmod $(FILEMODE) $(FILES)
-	chmod $(DIRMODE) $(DIRS)
+permissions:
+	@echo "Fixing permissions..."
+	@chmod $(FILEMODE) $(FILES)
+	@chmod $(DIRMODE) $(DIRS)
+
+
+beta: $(FILES) permissions
 	. .rsync beta
 
-live: $(FILES)
-	chmod $(FILEMODE) $(FILES)
-	chmod $(DIRMODE) $(DIRS)
+live: $(FILES) permissions
 	. .rsync
     
