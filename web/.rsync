@@ -1,2 +1,17 @@
-rsync -ave 'ssh -x' ./ michaelrice@shell.sourceforge.net:/home/groups/r/rp/rptools/htdocs$1/ --exclude .htaccess
+
+case "$USER" in
+    mrice*|michael*)
+        SFUSER=michaelrice;;
+    tcroft*|trevor*)
+        SFUSER=tcroft;;
+    drice*|david*|giliath*)
+        SFUSER=giliath;;
+esac
+
+case "$1" in
+    *beta)
+        ADDPATH="/beta";;
+esac
+
+rsync -Cave 'ssh -x' ./ $SFUSER@shell.sourceforge.net:/home/groups/r/rp/rptools/htdocs$ADDPATH/ --exclude .htaccess
 
