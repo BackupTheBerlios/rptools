@@ -2,7 +2,7 @@
 <jnlp
   spec="1.5+"
   codebase="http://rptools.sourceforge.net/beta/"
-  href="dicetool.jnlp">
+  href="dicetool/dicetool.jnlp">
   <information>
     <title>Dice Tool</title>
     <vendor>Role Playing Tools</vendor>
