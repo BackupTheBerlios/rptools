@@ -1,14 +1,50 @@
-BODY {
+BODY#header {
     margin:         3em;
     font-family:    sans-serif;
     line-height:    1.1;
-    background:     #EEEEEE;
+    background:     #FFF;
     color:          black;
 }
 CODE {
     font-size:      13pt;
 }
-
+TD#leftpane {
+    background:             #DDDDDD;
+    background:             #FFFFFF;
+    vertical-align:         top;
+    padding-right:          6pt;
+    padding-left:          6pt;
+}
+TD#rightpane {
+    width:                  100%;
+    vertical-align:         top;
+    padding-top:            13pt;
+    padding-left:           13pt;
+    padding-right:          13pt;
+    padding-bottom:         13pt;
+    background:             #DDDDDD;
+    background:             #FFFFFF;
+}
+TD#leftpane H1,
+TD#leftpane H2,
+TD#leftpane H3,
+TD#leftpane H4,
+TD#leftpane H5,
+TD#leftpane H6 {
+    color:                   #9d8d68;
+}
+TD#rightpane H1,
+TD#rightpane H2,
+TD#rightpane H3,
+TD#rightpane H4,
+TD#rightpane H5,
+TD#rightpane H6 {
+    color:                   #9d8d68;
+    background:              #CCCAD5;
+}
+TD#backgrounded {
+    background-image:       ./rptools-logo.png;
+}
 A:link, A:active, A:visited { color: blue; text-decoration: none; }
 A:hover { text-decoration: underline; }
 
