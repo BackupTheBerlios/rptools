@@ -1,4 +1,4 @@
-<project name="maptool" default="dist">
+<project name="clientserver" default="dist">
 	<target name="init">
 		<property file="conf/build.properties" />
 		
@@ -25,7 +25,7 @@
 		
 		<buildnumber file="conf/build.number" />
 		
-		<jar destfile="${dist}/clientserver-${build.version}.${build.number}.jar" 
+		<jar destfile="${dist}/clientserver-${build.version}.b${build.number}.jar" 
 			 basedir="${build}" />
 	</target>
 </project>
