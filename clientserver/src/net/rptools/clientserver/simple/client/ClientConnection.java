@@ -182,7 +182,6 @@ public class ClientConnection extends AbstractConnection {
                     conn.dispatchMessage(conn.id, message);
                 }
             } catch (IOException e) {
-                System.out.println("Receive thread died.");
                 fireDisconnect();
             }
 
