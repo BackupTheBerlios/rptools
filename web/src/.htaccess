@@ -1,1 +1,2 @@
 AddHandler server-parsed    .html
+AddType application/x-java-jnlp-file .jnlp
