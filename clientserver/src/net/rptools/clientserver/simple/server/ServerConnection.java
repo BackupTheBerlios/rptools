@@ -224,7 +224,7 @@ public class ServerConnection extends AbstractConnection implements MessageHandl
                         
                         server.clients.put(conn.getId(), conn);
                         server.fireClientConnect(conn);
-                        System.out.println("new client " + conn.getId() + " added, " + server.clients.size() + " total");
+                        //System.out.println("new client " + conn.getId() + " added, " + server.clients.size() + " total");
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

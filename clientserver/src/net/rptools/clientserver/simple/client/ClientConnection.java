@@ -150,7 +150,6 @@ public class ClientConnection extends AbstractConnection {
                     }
                 }
             } catch (IOException e) {
-                System.out.println("Send thread died.");
                 fireDisconnect();
             }
         }

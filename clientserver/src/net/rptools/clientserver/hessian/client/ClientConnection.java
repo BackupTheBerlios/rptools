@@ -46,6 +46,7 @@ public class ClientConnection extends net.rptools.clientserver.simple.client.Cli
 
     public void callMethod(String method, Object... parameters) {
 
+    	
     	byte[] message = HessianUtils.methodToBytes(method, parameters);
         sendMessage(message);
     }
