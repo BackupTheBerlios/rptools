@@ -118,7 +118,7 @@ public class ClientConnection extends AbstractConnection {
 
         public SendThread(ClientConnection conn, OutputStream out) {
             this.conn = conn;
-            this.out = new BufferedOutputStream(out);
+            this.out = new BufferedOutputStream(out, 1024);
         }
 
         public void requestStop() {
@@ -169,7 +169,7 @@ public class ClientConnection extends AbstractConnection {
 
         public ReceiveThread(ClientConnection conn, InputStream in) {
             this.conn = conn;
-            this.in = new BufferedInputStream(in);
+            this.in = in;
         }
 
         public void requestStop() {

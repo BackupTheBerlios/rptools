@@ -107,6 +107,7 @@ public abstract class AbstractConnection {
         out.write(length >> 8);
         out.write(length);
 
+        //System.out.println ("WRITE");
         for (int i = 0; i < message.length; i++) {
             out.write(message[i]);
             
@@ -114,7 +115,8 @@ public abstract class AbstractConnection {
                 notifyListeners(Direction.Outbound, State.Progress, length, i);
             }
         }
-        
+
+        //System.out.println("FLUSH");
         out.flush();
         
         notifyListeners(Direction.Outbound, State.Complete, length, length);
@@ -130,6 +132,7 @@ public abstract class AbstractConnection {
         
         notifyListeners(Direction.Inbound, State.Start, length, 0);
 
+        //System.out.println("READ");
         byte[] ret = new byte[length];
         for (int i = 0; i < length; i++) {
             ret[i] = (byte) in.read();
@@ -139,6 +142,7 @@ public abstract class AbstractConnection {
             }
         }
 
+        //System.out.println("READ-done");
         notifyListeners(Direction.Inbound, State.Complete, length, length);
 
         return ret;
