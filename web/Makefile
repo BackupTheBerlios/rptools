@@ -4,11 +4,24 @@ DIRS=$(shell find src -type d)
 DIRMODE=0755
 FILEMODE=0644
 
-all:    beta
 
+noneed:
+	@echo "No need to push to the web server, cvs updates are done automatically"
+
+beta:   noneed
+
+live:   noneed
+
+all:    noneed
+
+
+.PHONY: all
 .PHONY: beta
 .PHONY: live
 .PHONY: permissions
+.PHONY: noneed
+.PHONY: forcebeta
+.PHONY: forcelive
 
 permissions:
 	@echo "Fixing permissions..."
@@ -16,9 +29,9 @@ permissions:
 	@chmod $(DIRMODE) $(DIRS)
 
 
-beta: $(FILES) permissions
+forcebeta: $(FILES) permissions
 	./.rsync beta
 
-live: $(FILES) permissions
+forcelive: $(FILES) permissions
 	./.rsync
     
