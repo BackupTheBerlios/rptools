@@ -1,0 +1,20 @@
+<!--#set var="PAGE_TITLE" value="Welcome to RPTools" -->
+<!--#include virtual="../header.html" -->
+
+<p><code>functions.js</code> extends the capabilities of the
+<code>dicetool</code> by allowing you to write your own functions and have
+<code>dicetool</code> evaluate them in-line with the expression.
+
+<p>For example we provide one built in critical threat function called
+att(threat).  att() rolls a d20 and compares it to threat.  if d20==1, it
+prints 'miss' in the output expression column.  if d20==20, it prints
+'hit/threat' in the output expression column.  if d20&gt;=threat it prints
+'threat' in the output expression column.  This corresponds to the d20 critical
+threat rules.
+
+<p>You might use this like
+<blockquote><code>
+    att(15)+BAB+DEX;d6+1+STR
+</code></blockquote>
+
+<!--#include virtual="../footer.html" -->
