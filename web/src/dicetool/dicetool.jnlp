@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
   spec="1.5+"
-  codebase="http://rptools.sourceforge.net/beta/dicetool"
+  codebase="http://rptools.sourceforge.net/beta/dicetool/"
   href="dicetool.jnlp">
   <information>
     <title>RPTools DiceTool</title>
