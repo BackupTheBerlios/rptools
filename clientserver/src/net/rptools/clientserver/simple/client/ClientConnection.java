@@ -129,7 +129,7 @@ public class ClientConnection extends AbstractConnection {
                         while (conn.outQueue.size() > 0) {
                             try {
                                 byte[] message = conn.outQueue.remove(0);
-                                writeMessage(out, message);
+                                conn.writeMessage(out, message);
                             } catch (IndexOutOfBoundsException e) {
                                 // just ignore and wait
                             }
@@ -172,7 +172,7 @@ public class ClientConnection extends AbstractConnection {
         public void run() {
             try {
                 while (!stopRequested) {
-                    byte[] message = readMessage(in);
+                    byte[] message = conn.readMessage(in);
                     conn.dispatchMessage(conn.id, message);
                 }
             } catch (IOException e) {

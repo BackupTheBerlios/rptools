@@ -31,6 +31,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.rptools.clientserver.ActivityListener;
+import net.rptools.clientserver.ActivityListener.Direction;
+import net.rptools.clientserver.ActivityListener.State;
+
 /**
  * @author drice
  *
@@ -38,10 +42,9 @@ import java.util.List;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public abstract class AbstractConnection {
-
     protected List<byte[]> outQueue = Collections.synchronizedList(new ArrayList<byte[]>());
-
     protected List<MessageHandler> handlers = Collections.synchronizedList(new ArrayList<MessageHandler>());
+    protected List<ActivityListener> listeners = Collections.synchronizedList(new ArrayList<ActivityListener>());
 
     public final void addMessageHandler(MessageHandler handler) {
         handlers.add(handler);
@@ -58,33 +61,67 @@ public abstract class AbstractConnection {
             }
         }
     }
+    
+    public final void addActivityListener(ActivityListener listener) {
+        listeners.add(listener);
+    }
+    
+    public final void removeActivityListener(ActivityListener listener) {
+        listeners.remove(listener);
+    }
+    
+    protected final void notifyListeners(Direction direction, State state, int totalTransferSize, int currentTransferSize) {
+        synchronized(listeners) {
+            for (ActivityListener listener : listeners) {
+                listener.notify(direction, state, totalTransferSize, currentTransferSize);
+            }
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // static helper methods
     ///////////////////////////////////////////////////////////////////////////
-    protected static final void writeMessage(OutputStream out, byte[] message) throws IOException {
+    protected final void writeMessage(OutputStream out, byte[] message) throws IOException {
         int length = message.length;
+        
+        notifyListeners(Direction.Outbound, State.Start, length, 0);
 
         out.write(length >> 24);
         out.write(length >> 16);
         out.write(length >> 8);
         out.write(length);
 
-        out.write(message);
+        for (int i = 0; i < message.length; i++) {
+            out.write(message[i]);
+            
+            if (i != 0 && i % ActivityListener.CHUNK_SIZE == 0) {
+                notifyListeners(Direction.Outbound, State.Progress, length, i);
+            }
+        }
+        
+        notifyListeners(Direction.Outbound, State.Complete, length, length);
     }
 
-    protected static final byte[] readMessage(InputStream in) throws IOException {
+    protected final byte[] readMessage(InputStream in) throws IOException {
         int b32 = in.read();
         int b24 = in.read();
         int b16 = in.read();
         int b8 = in.read();
 
         int length = (b32 << 24) + (b24 << 16) + (b16 << 8) + b8;
+        
+        notifyListeners(Direction.Inbound, State.Start, length, 0);
 
         byte[] ret = new byte[length];
         for (int i = 0; i < length; i++) {
             ret[i] = (byte) in.read();
+            
+            if (i != 0 && i % ActivityListener.CHUNK_SIZE == 0) {
+                notifyListeners(Direction.Inbound, State.Progress, length, i);
+            }
         }
+
+        notifyListeners(Direction.Inbound, State.Complete, length, length);
 
         return ret;
     }
