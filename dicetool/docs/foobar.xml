@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE preferences SYSTEM 'http://java.sun.com/dtd/preferences.dtd'>
+
+<preferences EXTERNAL_XML_VERSION="1.0">
+  <root type="user">
+    <map />
+    <node name="com">
+      <map />
+      <node name="jcuz">
+        <map />
+        <node name="dnd">
+          <map />
+          <node name="dmtool">
+            <map />
+            <node name="customRolls">
+              <map />
+              <node name="Tab1">
+                <map>
+                  <entry key="button0" value="Attack" />
+                  <entry key="definition0" value="2{d20+26;2d8+6|2d8}" />
+                  <entry key="button1" value="Roll" />
+                  <entry key="definition1" value="d20|16" />
+                  <entry key="button2" value="Roll" />
+                  <entry key="definition2" value="" />
+                  <entry key="button3" value="Roll" />
+                  <entry key="definition3" value="" />
+                  <entry key="button4" value="Roll" />
+                  <entry key="definition4" value="" />
+                  <entry key="button5" value="Roll" />
+                  <entry key="definition5" value="" />
+                  <entry key="button6" value="Roll" />
+                  <entry key="definition6" value="" />
+                  <entry key="button7" value="Roll" />
+                  <entry key="definition7" value="" />
+                  <entry key="button8" value="Roll" />
+                  <entry key="definition8" value="" />
+                  <entry key="button9" value="Roll" />
+                  <entry key="definition9" value="" />
+                  <entry key="button10" value="Roll" />
+                  <entry key="definition10" value="" />
+                  <entry key="button11" value="Roll" />
+                  <entry key="definition11" value="" />
+                  <entry key="button12" value="Roll" />
+                  <entry key="definition12" value="" />
+                  <entry key="button13" value="Roll" />
+                  <entry key="definition13" value="" />
+                  <entry key="button14" value="Roll" />
+                  <entry key="definition14" value="" />
+                  <entry key="button15" value="Roll" />
+                  <entry key="definition15" value="" />
+                  <entry key="button16" value="Roll" />
+                  <entry key="definition16" value="" />
+                  <entry key="button17" value="Roll" />
+                  <entry key="definition17" value="" />
+                  <entry key="button18" value="Roll" />
+                  <entry key="definition18" value="" />
+                  <entry key="button19" value="Roll" />
+                  <entry key="definition19" value="" />
+                </map>
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </root>
+</preferences>
+

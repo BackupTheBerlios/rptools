@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+<jar path="dmtool/dmtool.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/dmtool/conf/dmtooljar.jardesc" exportErrors="false" exportWarnings="true" overwrite="true" saveDescription="true" useSourceFolders="false"/>
+<manifest generateManifest="false" manifestLocation="/dmtool/conf/manifest.mf" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+<sealing sealJar="false">
+<packagesToSeal/>
+<packagesToUnSeal/>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<javaElement handleIdentifier="=dmtool/src"/>
+<javaElement handleIdentifier="=dmtool/lib\/rhino1_5R5\/src"/>
+<javaElement handleIdentifier="=dmtool/lib\/jep-2.3.0\/src_jeponly"/>
+<file path="/dmtool/README"/>
+</selectedElements>
+</jardesc>

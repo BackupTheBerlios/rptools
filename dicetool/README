@@ -1,0 +1,16 @@
+Expression language examples:
+
+Die supported:
+
+d20
+d20+1
+d20+d6
+5d6
+2d6,2d6
+5(d6) = d6,d6,d6,d6,d6
+d20*2
+d%
+
+
+Any of these expressions can be joined with a | or ; to indicate rolling 
+multiple expression groups.
