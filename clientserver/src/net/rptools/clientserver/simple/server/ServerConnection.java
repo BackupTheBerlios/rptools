@@ -106,6 +106,17 @@ public class ServerConnection extends AbstractConnection implements MessageHandl
         client.sendMessage(message);
     }
 
+    /**
+     * Server subclasses may override this method to perform serial handshaking
+     * before the connection is accepted into its pool.  By default, this just
+     * returns true.
+     * @param conn
+     * @return true if the connection should be added to the pool
+     */
+    public boolean handleConnectionHandshake(Socket socket) {
+    	return true;
+    }
+    
     public void close() throws IOException {
         socket.close();
 
@@ -177,11 +188,19 @@ public class ServerConnection extends AbstractConnection implements MessageHandl
             while (!stopRequested) {
                 try {
                     Socket s = socket.accept();
+
+                    // Make sure the client is allowed
+                    if (!server.handleConnectionHandshake(s)) {
+                    	s.close();
+                    	continue;
+                    }
+                    
                     ClientConnection conn = new ClientConnection(s);
                     conn.addMessageHandler(server);
 
                     synchronized (server.clients) {
                         server.reapClients();
+                        
                         server.clients.put(conn.getId(), conn);
                         server.fireClientConnect(conn);
                         System.out.println("new client " + conn.getId() + " added, " + server.clients.size() + " total");
