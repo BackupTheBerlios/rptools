@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <jnlp
   spec="1.5+"
-  codebase="http://rptools.sourceforge.net/beta/"
-  href="dicetool/dicetool.jnlp">
+  codebase="http://rptools.sourceforge.net/beta/dicetool"
+  href="dicetool.jnlp">
   <information>
-    <title>Dice Tool</title>
-    <vendor>Role Playing Tools</vendor>
+    <title>RPTools DiceTool</title>
+    <vendor>http://rptools.sourceforge.net/</vendor>
   </information>
 
   <security>
