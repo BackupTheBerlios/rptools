@@ -99,6 +99,8 @@ public abstract class AbstractConnection {
             }
         }
         
+        out.flush();
+        
         notifyListeners(Direction.Outbound, State.Complete, length, length);
     }
 

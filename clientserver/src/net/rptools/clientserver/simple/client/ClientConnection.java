@@ -132,8 +132,6 @@ public class ClientConnection extends AbstractConnection {
                             try {
                                 byte[] message = conn.outQueue.remove(0);
                                 conn.writeMessage(out, message);
-                                
-                                out.flush();
                             } catch (IndexOutOfBoundsException e) {
                                 // just ignore and wait
                             }
