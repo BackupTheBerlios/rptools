@@ -22,31 +22,13 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
  * SOFTWARE.
  */
-package net.rptools.clientserver.hessian.client;
-
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
-import net.rptools.clientserver.hessian.HessianUtils;
+package net.rptools.clientserver.simple;
 
 
 /**
- * @author drice
+ * @author trevor
  */
-public class ClientConnection extends net.rptools.clientserver.simple.client.ClientConnection {
+public interface DisconnectHandler {
 
-    public ClientConnection(String host, int port, String id) throws UnknownHostException, IOException {
-        super(host, port, id);
-    }
-
-    public ClientConnection(Socket socket, String id) throws IOException {
-        super(socket, id);
-    }
-
-    public void callMethod(String method, Object... parameters) {
-
-    	byte[] message = HessianUtils.methodToBytes(method, parameters);
-        sendMessage(message);
-    }
+	public void handleDisconnect(AbstractConnection conn);
 }

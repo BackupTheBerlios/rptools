@@ -46,7 +46,7 @@ public class Test01 {
         ServerConnection server = new ServerConnection(4444);
         server.addMessageHandler(new ServerHandler());
 
-        ClientConnection client = new ClientConnection("192.168.1.102", 4444);
+        ClientConnection client = new ClientConnection("192.168.1.102", 4444, "Testing");
         client.addMessageHandler(new ClientHandler());
 
         for (int i = 0; i < 1000; i++) {

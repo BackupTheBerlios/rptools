@@ -44,27 +44,36 @@ import net.rptools.clientserver.simple.AbstractConnection;
 public class ClientConnection extends AbstractConnection {
     private final Socket socket;
 
-    private final SendThread send;
+    private SendThread send;
 
-    private final ReceiveThread receive;
+    private ReceiveThread receive;
 
     private final String id;
-
-    private static int nextConnectionId = 0;
     
-    public ClientConnection(String host, int port) throws UnknownHostException, IOException {
-        this(new Socket(host, port));
+    public ClientConnection(String host, int port, String id) throws UnknownHostException, IOException {
+        this(new Socket(host, port), id);
     }
 
-    public ClientConnection(Socket socket) throws IOException {
+    public ClientConnection(Socket socket, String id) {
         this.socket = socket;
+        
+        this.id = id;
+    }
+
+    public void start() throws IOException {
+    	
+        sendHandshake(socket);
+        
         this.send = new SendThread(this, socket.getOutputStream());
         this.send.start();
         this.receive = new ReceiveThread(this, socket.getInputStream());
         this.receive.start();
-        this.id = nextClientID(socket);
     }
-
+    
+    public void sendHandshake(Socket s) throws IOException {
+    	// No-op
+    }
+    
     public String getId() {
     	return id;
     }
@@ -97,14 +106,10 @@ public class ClientConnection extends AbstractConnection {
         }
     }
 
-    private static synchronized String nextClientID(Socket socket) {
-    	return socket.getInetAddress().getHostAddress() + "-" + (nextConnectionId++);
-    }
-    
     // /////////////////////////////////////////////////////////////////////////
     // send thread
     // /////////////////////////////////////////////////////////////////////////
-    private static class SendThread extends Thread {
+    private class SendThread extends Thread {
         private final ClientConnection conn;
 
         private final OutputStream out;
@@ -146,7 +151,7 @@ public class ClientConnection extends AbstractConnection {
                 }
             } catch (IOException e) {
                 System.out.println("Send thread died.");
-                e.printStackTrace();
+                fireDisconnect();
             }
         }
 
@@ -155,7 +160,7 @@ public class ClientConnection extends AbstractConnection {
     // /////////////////////////////////////////////////////////////////////////
     // receive thread
     // /////////////////////////////////////////////////////////////////////////
-    private static class ReceiveThread extends Thread {
+    private class ReceiveThread extends Thread {
         private final ClientConnection conn;
 
         private final InputStream in;
@@ -179,7 +184,7 @@ public class ClientConnection extends AbstractConnection {
                 }
             } catch (IOException e) {
                 System.out.println("Receive thread died.");
-                e.printStackTrace();
+                fireDisconnect();
             }
 
         }

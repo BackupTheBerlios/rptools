@@ -43,23 +43,31 @@ import net.rptools.clientserver.ActivityListener.State;
  */
 public abstract class AbstractConnection {
     protected List<byte[]> outQueue = Collections.synchronizedList(new ArrayList<byte[]>());
-    protected List<MessageHandler> handlers = Collections.synchronizedList(new ArrayList<MessageHandler>());
+    protected List<MessageHandler> messageHandlers = Collections.synchronizedList(new ArrayList<MessageHandler>());
     protected List<ActivityListener> listeners = Collections.synchronizedList(new ArrayList<ActivityListener>());
+    protected List<DisconnectHandler> disconnectHandlers = Collections.synchronizedList(new ArrayList<DisconnectHandler>());
 
     public final void addMessageHandler(MessageHandler handler) {
-        handlers.add(handler);
+        messageHandlers.add(handler);
     }
 
     public final void removeMessageHandler(MessageHandler handler) {
-        handlers.remove(handler);
+        messageHandlers.remove(handler);
     }
 
     protected final void dispatchMessage(String id, byte[] message) {
-        synchronized (handlers) {
-            for (MessageHandler handler : handlers) {
+        synchronized (messageHandlers) {
+            for (MessageHandler handler : messageHandlers) {
                 handler.handleMessage(id, message);
             }
         }
+    }
+    
+    public final void fireDisconnect() {
+    	
+    	for (DisconnectHandler handler : disconnectHandlers) {
+    		handler.handleDisconnect(this);
+    	}
     }
     
     public final void addActivityListener(ActivityListener listener) {
@@ -68,6 +76,14 @@ public abstract class AbstractConnection {
     
     public final void removeActivityListener(ActivityListener listener) {
         listeners.remove(listener);
+    }
+    
+    public final void addDisconnectHandler(DisconnectHandler handler) {
+        disconnectHandlers.add(handler);
+    }
+    
+    public final void removeDisconnectHandler(DisconnectHandler handler) {
+        disconnectHandlers.remove(handler);
     }
     
     protected final void notifyListeners(Direction direction, State state, int totalTransferSize, int currentTransferSize) {

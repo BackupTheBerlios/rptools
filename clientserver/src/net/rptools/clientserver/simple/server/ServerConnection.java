@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.rptools.clientserver.simple.AbstractConnection;
+import net.rptools.clientserver.simple.DisconnectHandler;
 import net.rptools.clientserver.simple.MessageHandler;
 import net.rptools.clientserver.simple.client.ClientConnection;
 
@@ -47,7 +48,7 @@ import net.rptools.clientserver.simple.client.ClientConnection;
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
-public class ServerConnection extends AbstractConnection implements MessageHandler {
+public class ServerConnection extends AbstractConnection implements MessageHandler, DisconnectHandler {
     private final ServerSocket socket;
 
     private final ListeningThread listeningThread;
@@ -113,7 +114,7 @@ public class ServerConnection extends AbstractConnection implements MessageHandl
      * @param conn
      * @return true if the connection should be added to the pool
      */
-    public boolean handleConnectionHandshake(Socket socket) {
+    public boolean handleConnectionHandshake(String id, Socket socket) {
     	return true;
     }
     
@@ -168,6 +169,16 @@ public class ServerConnection extends AbstractConnection implements MessageHandl
     	}
     }
 
+    ////
+    // DISCONNECT HANDLER
+    public void handleDisconnect(AbstractConnection conn) {
+    	if (conn instanceof ClientConnection) {
+    		fireClientDisconnect((ClientConnection) conn);
+    	}
+    }
+    
+    ////
+    // Threads
     private static class ListeningThread extends Thread {
         private final ServerConnection server;
 
@@ -175,6 +186,12 @@ public class ServerConnection extends AbstractConnection implements MessageHandl
 
         private boolean stopRequested = false;
 
+        private int nextConnectionId = 0;
+        
+        private synchronized String nextClientId(Socket socket) {
+        	return socket.getInetAddress().getHostAddress() + "-" + (nextConnectionId++);
+        }
+        
         public ListeningThread(ServerConnection server, ServerSocket socket) {
             this.server = server;
             this.socket = socket;
@@ -189,14 +206,18 @@ public class ServerConnection extends AbstractConnection implements MessageHandl
                 try {
                     Socket s = socket.accept();
 
+                    String id = nextClientId(s);
+                    
                     // Make sure the client is allowed
-                    if (!server.handleConnectionHandshake(s)) {
+                    if (!server.handleConnectionHandshake(id, s)) {
                     	s.close();
                     	continue;
                     }
                     
-                    ClientConnection conn = new ClientConnection(s);
+                    ClientConnection conn = new ClientConnection(s, id);
                     conn.addMessageHandler(server);
+                    conn.addDisconnectHandler(server);
+                    conn.start();
 
                     synchronized (server.clients) {
                         server.reapClients();
@@ -211,7 +232,9 @@ public class ServerConnection extends AbstractConnection implements MessageHandl
             }
         }
     }
-
+    
+    
+    
     private static class DispatchThread extends Thread implements MessageHandler {
         private final ServerConnection server;
 
