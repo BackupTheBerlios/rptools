@@ -1,5 +1,5 @@
 /*
- * $Id: MD5Key.java,v 1.1 2005/03/15 19:54:34 tcroft Exp $
+ * $Id: MD5Key.java,v 1.2 2005/03/15 20:57:12 tcroft Exp $
  *
  * Copyright (C) 2005, Digital Motorworks LP, a wholly owned subsidiary of ADP.
  * The contents of this file are protected under the copyright laws of the
@@ -9,6 +9,7 @@
  */
 package net.rptools.maptool.util;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import java.util.Map;
  * Represents the MD5 key for a certain set of data.
  * Can be used in maps as keys.
  */
-public class MD5Key {
+public class MD5Key implements Serializable {
 
     private static MessageDigest md5Digest;
     
@@ -32,6 +33,8 @@ public class MD5Key {
             e.printStackTrace();
         }
     }
+    
+    public MD5Key(){}
     
     public MD5Key (byte[] data) {
         id = encodeToHex(digestData(data));
