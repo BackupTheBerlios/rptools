@@ -1,3 +1,9 @@
+1.0M3 Changes and Features
+    * Token hover size is thresholded
+    * Select/Move multiple tokens at a time
+    * Grid locks up when too small (fixed)
+    * Notification when clients disconnect
+
 1.0M2 Changes and Features              released 21 April 2005
     * Grid jumps when zooming fixed
     * Simple Player/GM roles (restrictions not in place)
