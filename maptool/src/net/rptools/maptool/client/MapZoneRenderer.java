@@ -1,5 +1,5 @@
 /*
- * $Id: MapZoneRenderer.java,v 1.1 2005/04/29 22:57:24 tcroft Exp $
+ * $Id: MapZoneRenderer.java,v 1.2 2005/05/01 05:00:05 tcroft Exp $
  *
  * Copyright (C) 2005, Digital Motorworks LP, a wholly owned subsidiary of ADP.
  * The contents of this file are protected under the copyright laws of the
@@ -36,7 +36,7 @@ public class MapZoneRenderer extends ZoneRenderer {
             p = null;
         }
         
-        return null;
+        return p;
     }
     
     public BufferedImage getBackgroundImage() {
