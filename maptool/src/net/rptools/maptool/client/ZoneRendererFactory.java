@@ -1,5 +1,5 @@
 /*
- * $Id: ZoneRendererFactory.java,v 1.1 2005/04/29 22:57:24 tcroft Exp $
+ * $Id: ZoneRendererFactory.java,v 1.2 2005/05/02 03:00:35 tcroft Exp $
  *
  * Copyright (C) 2005, Digital Motorworks LP, a wholly owned subsidiary of ADP.
  * The contents of this file are protected under the copyright laws of the
@@ -18,7 +18,7 @@ public class ZoneRendererFactory {
         ZoneRenderer renderer = null;
         switch (zone.getType()) {
         case Zone.Type.INFINITE: {
-            renderer = null;
+            renderer = new IndefiniteZoneRenderer(zone);
             break;
         }
         case Zone.Type.MAP:
