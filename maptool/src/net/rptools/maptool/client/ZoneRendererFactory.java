@@ -1,5 +1,5 @@
 /*
- * $Id: ZoneRendererFactory.java,v 1.2 2005/05/02 03:00:35 tcroft Exp $
+ * $Id: ZoneRendererFactory.java,v 1.3 2005/05/08 18:57:43 tcroft Exp $
  *
  * Copyright (C) 2005, Digital Motorworks LP, a wholly owned subsidiary of ADP.
  * The contents of this file are protected under the copyright laws of the
@@ -9,11 +9,15 @@
  */
 package net.rptools.maptool.client;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import net.rptools.maptool.model.GUID;
 import net.rptools.maptool.model.Zone;
 
 public class ZoneRendererFactory {
 
-    public static ZoneRenderer newRenderer(Zone zone) {
+	public static ZoneRenderer newRenderer(Zone zone) {
         
         ZoneRenderer renderer = null;
         switch (zone.getType()) {
