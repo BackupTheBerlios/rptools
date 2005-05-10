@@ -25,13 +25,7 @@
 
 package net.rptools.tokentool;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
@@ -54,23 +48,15 @@ public class TokenTool {
         tokenToolFrame.setVisible(true);
     }
     
-    public static void saveToken(BufferedImage token) {
-     
-        if (tokenToolFrame.getSaveFileChooser().showSaveDialog(tokenToolFrame) == JFileChooser.APPROVE_OPTION) {
-            
-            File file = tokenToolFrame.getSaveFileChooser().getSelectedFile();
-            if (!file.getName().toUpperCase().endsWith(".PNG")) {
-                file = new File(file.getAbsolutePath() + ".png");
-            }
-            if (file.exists()) {
-                // TODO: Confirm doing this
-            }
-            
-            try {
-                ImageIO.write(token, "png", file);
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-        }
+    public static TokenToolFrame getFrame() {
+        return tokenToolFrame;
+    }
+    
+    public static void showError(String message) {
+        JOptionPane.showMessageDialog(tokenToolFrame, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public static boolean confirm(String message) {
+        return JOptionPane.showConfirmDialog(tokenToolFrame, message, "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
 }

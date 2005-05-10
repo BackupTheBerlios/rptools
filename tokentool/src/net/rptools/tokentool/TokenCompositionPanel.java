@@ -29,7 +29,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.Transparency;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -39,7 +38,6 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -51,10 +49,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 import net.rptools.common.DataFlavors;
 import net.rptools.common.swing.SwingUtil;
@@ -62,7 +58,6 @@ import net.rptools.common.util.ImageUtil;
 
 public class TokenCompositionPanel extends JComponent implements DropTargetListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
-    private BufferedImage backgroundImage;
     private BufferedImage overlayImage;
     private BufferedImage tokenImage;
     
@@ -81,21 +76,12 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
 
     public TokenCompositionPanel() {
         
-        try {
-            backgroundImage = ImageUtil.getImage("net/rptools/tokentool/image/grid.png");
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        
         // DnD
         new DropTarget(this, this);
         
         addMouseListener(this);
         addMouseMotionListener(this);
         addMouseWheelListener(this);
-        
-        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK), "saveToken");
-        getActionMap().put("saveToken", new ExportAction());
     }
 
     @Override
@@ -255,20 +241,9 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         
         repaint();
     }   
-
-    ////
-    // ACTIONS
-    private class ExportAction extends AbstractAction {
-        
-        public void actionPerformed(ActionEvent e) {
-            
-            SwingUtilities.invokeLater(new Runnable() {
-               
-                public void run() {
-                    BufferedImage token = TokenCompositor.composeToken(overlayImage, tokenImage, overlayBounds.x - tokenOffsetX, overlayBounds.y - tokenOffsetY, tokenScale);
-                    TokenTool.saveToken(token);
-                }
-            });
-        }
+    
+    public BufferedImage getComposedToken() {
+        return TokenCompositor.composeToken(overlayImage, tokenImage, overlayBounds.x - tokenOffsetX, overlayBounds.y - tokenOffsetY, tokenScale);
     }
+
 }

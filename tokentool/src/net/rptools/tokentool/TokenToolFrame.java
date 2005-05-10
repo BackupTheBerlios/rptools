@@ -26,6 +26,8 @@
 package net.rptools.tokentool;
 
 import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -54,13 +56,19 @@ public class TokenToolFrame extends JFrame {
             ioe.printStackTrace();
         }
         
-        
+        setJMenuBar(new MenuBar());
         add(BorderLayout.CENTER, compositionPanel);
 
         saveChooser = new JFileChooser();
     }
+
+    public BufferedImage getComposedToken() {
+        return compositionPanel.getComposedToken();
+    }
     
-    public JFileChooser getSaveFileChooser() {
-        return saveChooser;
+    public File showSaveDialog() {
+        
+        int action = saveChooser.showSaveDialog(TokenTool.getFrame());
+        return action == JFileChooser.APPROVE_OPTION ? saveChooser.getSelectedFile() : null;
     }
 }

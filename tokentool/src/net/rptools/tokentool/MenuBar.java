@@ -25,11 +25,25 @@
 
 package net.rptools.tokentool;
 
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class MenuBar extends JMenuBar {
 
     public MenuBar() {
         
+        add(createFileMenu());
+    }
+    
+    protected JMenu createFileMenu() {
+        
+        JMenu menu = new JMenu("File");
+        
+        menu.add(new JMenuItem(AppActions.SAVE_TOKEN));
+        menu.addSeparator();
+        menu.add(new JMenuItem(AppActions.EXIT_APP));
+        
+        return menu;
     }
 }

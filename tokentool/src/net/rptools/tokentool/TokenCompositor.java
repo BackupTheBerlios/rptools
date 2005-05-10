@@ -30,8 +30,6 @@ import java.awt.Graphics;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 
-import net.rptools.common.util.ImageUtil;
-
 public class TokenCompositor {
 
     private static final int BACKGROUND_COLOR = 0xffff00ff;
