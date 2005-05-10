@@ -1,5 +1,5 @@
 /*
- * $Id: TokenCompositionPanel.java,v 1.3 2005/05/10 18:18:37 tcroft Exp $
+ * $Id: TokenCompositionPanel.java,v 1.4 2005/05/10 18:29:04 tcroft Exp $
  *
  * Copyright (C) 2005, Digital Motorworks LP, a wholly owned subsidiary of ADP.
  * The contents of this file are protected under the copyright laws of the
@@ -40,13 +40,12 @@ import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import net.rptools.common.DataFlavors;
 import net.rptools.common.swing.SwingUtil;
 import net.rptools.common.util.ImageUtil;
 
 public class TokenCompositionPanel extends JComponent implements DropTargetListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
-    private static final DataFlavor IMAGE_FLAVOR = new DataFlavor("image/x-java-image; class=java.awt.Image", "Image");
-    
     private BufferedImage backgroundImage;
     private BufferedImage overlayImage;
     private BufferedImage tokenImage;
@@ -140,10 +139,10 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         Transferable transferable = dtde.getTransferable();
         dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
         
-        if (transferable.isDataFlavorSupported(IMAGE_FLAVOR)) {
+        if (transferable.isDataFlavorSupported(DataFlavors.IMAGE_FLAVOR)) {
             System.out.println ("Using image");
             try {
-                setToken((BufferedImage) transferable.getTransferData(IMAGE_FLAVOR));
+                setToken((BufferedImage) transferable.getTransferData(DataFlavors.IMAGE_FLAVOR));
                 return;
             } catch (IOException ioe) {
                 ioe.printStackTrace();
