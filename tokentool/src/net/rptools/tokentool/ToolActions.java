@@ -23,12 +23,9 @@
  * SOFTWARE.
  */
 
-package net.rptools.common;
+package net.rptools.tokentool;
 
-import java.awt.datatransfer.DataFlavor;
+public class ToolActions {
 
-public class DataFlavors {
-
-    public static final DataFlavor IMAGE_FLAVOR = new DataFlavor("image/x-java-image; class=java.awt.Image", "Image");
     
 }

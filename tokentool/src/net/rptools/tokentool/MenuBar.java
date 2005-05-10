@@ -23,12 +23,13 @@
  * SOFTWARE.
  */
 
-package net.rptools.common;
+package net.rptools.tokentool;
 
-import java.awt.datatransfer.DataFlavor;
+import javax.swing.JMenuBar;
 
-public class DataFlavors {
+public class MenuBar extends JMenuBar {
 
-    public static final DataFlavor IMAGE_FLAVOR = new DataFlavor("image/x-java-image; class=java.awt.Image", "Image");
-    
+    public MenuBar() {
+        
+    }
 }
