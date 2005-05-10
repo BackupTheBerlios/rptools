@@ -1,5 +1,5 @@
 /*
- * $Id: TokenCompositionPanel.java,v 1.1 2005/05/10 03:21:08 tcroft Exp $
+ * $Id: TokenCompositionPanel.java,v 1.2 2005/05/10 18:17:37 tcroft Exp $
  *
  * Copyright (C) 2005, Digital Motorworks LP, a wholly owned subsidiary of ADP.
  * The contents of this file are protected under the copyright laws of the
@@ -45,6 +45,8 @@ import net.rptools.common.util.ImageUtil;
 
 public class TokenCompositionPanel extends JComponent implements DropTargetListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
+    private static final DataFlavor IMAGE_FLAVOR = new DataFlavor("image/x-java-image; class=java.awt.Image", "Image");
+    
     private BufferedImage backgroundImage;
     private BufferedImage overlayImage;
     private BufferedImage tokenImage;
@@ -138,6 +140,19 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         Transferable transferable = dtde.getTransferable();
         dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
         
+        if (transferable.isDataFlavorSupported(IMAGE_FLAVOR)) {
+            System.out.println ("Using image");
+            try {
+                setToken((BufferedImage) transferable.getTransferData(IMAGE_FLAVOR));
+                return;
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } catch (UnsupportedFlavorException ufe) {
+                ufe.printStackTrace();
+            }
+        }
+        
+        //// TODO: THIS IS DEPRECATED BECAUSE OF THE ABOVE, REMOVE IT
         try {
             List<File> list = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
             
@@ -155,7 +170,8 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
                 e.printStackTrace();
             }
 
-        // We only support using one at a time for now
+            // Dropping from firefox has weird semantics.  Try waiting
+            // for a bit to see if it can successfully show up
             setToken(ImageUtil.getImage(list.get(0)));
         } catch (IOException ioe) {
             ioe.printStackTrace();
