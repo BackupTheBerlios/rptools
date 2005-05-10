@@ -1,5 +1,5 @@
 /*
- * $Id: TokenCompositionPanel.java,v 1.2 2005/05/10 18:17:37 tcroft Exp $
+ * $Id: TokenCompositionPanel.java,v 1.3 2005/05/10 18:18:37 tcroft Exp $
  *
  * Copyright (C) 2005, Digital Motorworks LP, a wholly owned subsidiary of ADP.
  * The contents of this file are protected under the copyright laws of the
@@ -152,7 +152,6 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
             }
         }
         
-        //// TODO: THIS IS DEPRECATED BECAUSE OF THE ABOVE, REMOVE IT
         try {
             List<File> list = (List<File>) transferable.getTransferData(DataFlavor.javaFileListFlavor);
             
