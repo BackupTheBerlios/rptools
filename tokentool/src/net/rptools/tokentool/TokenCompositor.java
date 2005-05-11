@@ -32,7 +32,8 @@ import java.awt.image.BufferedImage;
 
 public class TokenCompositor {
 
-    private static final int BACKGROUND_COLOR = 0xffff00ff;
+    private static final int BACKGROUND_COLOR = 0xff00ff;
+	private static final int COLOR_MASK = 0xffffff;
 
     public static BufferedImage composeToken(BufferedImage overlayImage, BufferedImage tokenImage, int offsetX, int offsetY, double scale) {
         
@@ -40,7 +41,7 @@ public class TokenCompositor {
             throw new IllegalArgumentException("Must have both an overlay and a token");
         }
         
-        BufferedImage composedImage = new BufferedImage(overlayImage.getWidth(), overlayImage.getHeight(), Transparency.BITMASK);
+        BufferedImage composedImage = new BufferedImage(overlayImage.getWidth(), overlayImage.getHeight(), Transparency.OPAQUE);
         
         Graphics g = null;
         try {
@@ -50,7 +51,6 @@ public class TokenCompositor {
             g.fillRect(0, 0, overlayImage.getWidth(), overlayImage.getHeight());
             g.drawImage(tokenImage, -offsetX, -offsetY, (int)(tokenImage.getWidth() * scale), (int)(tokenImage.getHeight() * scale), null);
             g.drawImage(overlayImage, 0, 0, null);
-            
         } finally {
             if (g != null) {
                 g.dispose();
@@ -77,10 +77,9 @@ public class TokenCompositor {
                 int color = overlayImage != null ? overlayImage.getRGB(x, y) : BACKGROUND_COLOR;
 
                 // Background
-                if ((color & BACKGROUND_COLOR) == BACKGROUND_COLOR) {
+                if ((color & COLOR_MASK) == BACKGROUND_COLOR) {
                     
-                    // Get the respective background pixel
-                    color = 0x00;
+                    color = 0x00; // Totally transparent
                 }
                 
                 translatedOverlayImage.setRGB(x, y, color);
