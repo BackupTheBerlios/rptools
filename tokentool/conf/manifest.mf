@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: net.rptools.tokentool.TokenTool
+Class-Path: 
+    lib/rplib-1.0.b1.jar
+    lib/looks-1.3b1.jar
