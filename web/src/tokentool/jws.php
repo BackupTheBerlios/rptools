@@ -23,9 +23,9 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 	<resources>
 		<j2se version="1.5+" java-vm-args="-Xms64m -Xmx128m"/>
 		
-		<jar href="lib/tokentool-1.0M1.b1.jar" />
+		<jar href="lib/tokentool-1.0M1.b3.jar" />
 		<jar href="lib/looks-1.3b1.jar" />		
-		<jar href="lib/rplib-1.0.b0.jar" />		
+		<jar href="lib/rplib-1.0.b1.jar" />		
 	</resources>
 	
 	<application-desc main-class="net.rptools.tokentool.TokenTool" />
