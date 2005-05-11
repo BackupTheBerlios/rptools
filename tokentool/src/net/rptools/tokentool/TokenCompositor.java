@@ -37,7 +37,7 @@ public class TokenCompositor {
 
     public static BufferedImage composeToken(BufferedImage overlayImage, BufferedImage tokenImage, int offsetX, int offsetY, double scale) {
         
-        if (overlayImage == null || tokenImage == null) {
+        if (overlayImage == null) {
             throw new IllegalArgumentException("Must have both an overlay and a token");
         }
         
@@ -49,7 +49,10 @@ public class TokenCompositor {
             
             g.setColor(Color.white);
             g.fillRect(0, 0, overlayImage.getWidth(), overlayImage.getHeight());
-            g.drawImage(tokenImage, -offsetX, -offsetY, (int)(tokenImage.getWidth() * scale), (int)(tokenImage.getHeight() * scale), null);
+            if (tokenImage != null) {
+                g.drawImage(tokenImage, -offsetX, -offsetY, (int)(tokenImage.getWidth() * scale), (int)(tokenImage.getHeight() * scale), null);
+            }
+            
             g.drawImage(overlayImage, 0, 0, null);
         } finally {
             if (g != null) {

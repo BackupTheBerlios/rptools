@@ -38,7 +38,6 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -48,11 +47,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JComponent;
-import javax.swing.KeyStroke;
 
-import net.rptools.common.DataFlavors;
+import net.rptools.common.ImageTransferable;
 import net.rptools.common.swing.SwingUtil;
 import net.rptools.common.util.ImageUtil;
 
@@ -74,6 +74,8 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
     
     private BufferedImage composedOverlayImage;
 
+    private ChangeObservable changeObservers;
+    
     public TokenCompositionPanel() {
         
         // DnD
@@ -82,8 +84,18 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         addMouseListener(this);
         addMouseMotionListener(this);
         addMouseWheelListener(this);
+        
+        changeObservers = new ChangeObservable();
     }
 
+    public void addChangeObserver(Observer observer) {
+        changeObservers.addObserver(observer);
+    }
+    
+    public void removeChangeObserver(Observer observer) {
+        changeObservers.deleteObserver(observer);
+    }
+    
     @Override
     protected void paintComponent(Graphics g) {
 
@@ -122,13 +134,16 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         tokenScale = 1;
         
         repaint();
+        changeObservers.fireChangeEvent();
     }
     
     public void setOverlay(BufferedImage overlayImage) {
         this.overlayImage = overlayImage;
         composedOverlayImage = null;
         repaint();
+        changeObservers.fireChangeEvent();
     }
+    
     
     ////
     // DROP TARGET LISTNER
@@ -141,10 +156,10 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         Transferable transferable = dtde.getTransferable();
         dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
         
-        if (transferable.isDataFlavorSupported(DataFlavors.IMAGE_FLAVOR)) {
+        if (transferable.isDataFlavorSupported(ImageTransferable.FLAVOR)) {
 
             try {
-                setToken((BufferedImage) transferable.getTransferData(DataFlavors.IMAGE_FLAVOR));
+                setToken((BufferedImage) transferable.getTransferData(ImageTransferable.FLAVOR));
                 return;
             } catch (IOException ioe) {
                 ioe.printStackTrace();
@@ -178,6 +193,8 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         } catch (UnsupportedFlavorException ufe) {
             ufe.printStackTrace();
         }
+        
+        changeObservers.fireChangeEvent();
     }
     public void dropActionChanged(DropTargetDragEvent dtde) {}
     
@@ -213,6 +230,7 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         }
         
         repaint();
+        changeObservers.fireChangeEvent();
     }
     public void mouseMoved(MouseEvent e) {}
     
@@ -240,10 +258,22 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         tokenScale = newScale;
         
         repaint();
+        changeObservers.fireChangeEvent();
     }   
     
     public BufferedImage getComposedToken() {
+        if (overlayBounds == null) {
+            return null;
+        }
+        
         return TokenCompositor.composeToken(overlayImage, tokenImage, overlayBounds.x - tokenOffsetX, overlayBounds.y - tokenOffsetY, tokenScale);
     }
 
+    private static class ChangeObservable extends Observable {
+        
+        public void fireChangeEvent() {
+            setChanged();
+            notifyObservers();
+        }
+    }
 }

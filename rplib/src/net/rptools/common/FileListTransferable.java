@@ -22,13 +22,46 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
  * SOFTWARE.
  */
-
 package net.rptools.common;
 
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
-public class DataFlavors {
+public class FileListTransferable implements Transferable {
 
-    public static final DataFlavor IMAGE_FLAVOR = new DataFlavor("image/x-java-image; class=java.awt.Image", "Image");
+    public static final DataFlavor FLAVOR = new DataFlavor("application/x-java-file-list;class=java.util.List", null);
     
+    private List<File> fileList;
+    
+    public FileListTransferable(List<File> fileList) {
+        this.fileList = fileList;
+    }
+
+    public FileListTransferable(File file) {
+        fileList = new LinkedList<File>();
+        fileList.add(file);
+    }
+    
+    public DataFlavor[] getTransferDataFlavors() {
+        return new DataFlavor[]{FLAVOR};
+    }
+
+    public boolean isDataFlavorSupported(DataFlavor flavor) {
+        return flavor.equals(FLAVOR);
+    }
+
+    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+        
+        if (!flavor.equals(FLAVOR)) {
+            throw new UnsupportedFlavorException(flavor);
+        }
+        
+        return fileList;
+    }
+
 }

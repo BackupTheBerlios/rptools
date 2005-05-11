@@ -32,6 +32,7 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import net.rptools.common.util.ImageUtil;
 
@@ -39,25 +40,35 @@ public class TokenToolFrame extends JFrame {
 
     private TokenCompositionPanel compositionPanel;
     private JFileChooser saveChooser;
+    private MagnifiedTokenPanel magnifiedPanel;
     
     public TokenToolFrame() {
 
     	super("TokenTool");
-        setSize(300, 300);
+        setSize(400, 300);
         setLocation(50, 0); // TODO: make this more intelligent
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         setLayout(new BorderLayout());
         
+        magnifiedPanel = new MagnifiedTokenPanel();
+
         compositionPanel = new TokenCompositionPanel();
+        compositionPanel.addChangeObserver(magnifiedPanel);
+        
         try { // TEMPORARY
             compositionPanel.setOverlay(ImageUtil.getImage("net/rptools/tokentool/image/overlay/circle.png"));
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+
+        
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.add(BorderLayout.NORTH, magnifiedPanel);
         
         setJMenuBar(new MenuBar());
         add(BorderLayout.CENTER, compositionPanel);
+        add(BorderLayout.EAST, rightPanel);
 
         saveChooser = new JFileChooser();
     }
