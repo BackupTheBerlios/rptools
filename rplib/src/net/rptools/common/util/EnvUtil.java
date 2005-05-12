@@ -22,16 +22,28 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
  * SOFTWARE.
  */
-package net.rptools.common.swing;
+package net.rptools.common.util;
 
-import java.awt.Image;
-import java.awt.datatransfer.Transferable;
+import java.io.File;
 
-public interface ImagePanelModel {
+/**
+ * Utility methods for working in a application environment/context
+ */
+public class EnvUtil {
 
-	public int getImageCount();
-    public Transferable getTransferable(int index);
-    public Object getID(int index);
-    public Image getImage(Object ID);
-	public Image getImage(int index);
+    public static File getUserHome() {
+        
+        String userHome = System.getProperty("user.home");
+        if (userHome == null) {
+            userHome = "/";
+        }
+        
+        return new File(userHome);
+    }
+    
+    public static File getApplicationDataDir(String appName) {
+        
+        return new File(getUserHome() + File.separator + "." + appName);
+    }
+    
 }

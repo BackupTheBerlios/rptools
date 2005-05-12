@@ -25,7 +25,6 @@
 package net.rptools.common.swing;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -41,7 +40,12 @@ import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComponent;
@@ -49,21 +53,42 @@ import javax.swing.JScrollPane;
 import javax.swing.Scrollable;
 import javax.swing.SwingUtilities;
 
-public class ImagePanel extends JComponent implements Scrollable, DragGestureListener, DragSourceListener  {
+public class ImagePanel extends JComponent implements Scrollable, DragGestureListener, DragSourceListener, MouseListener  {
 
+    public enum SelectionMode {
+        SINGLE,
+        MULTIPLE,
+        NONE
+    };
+    
 	private ImagePanelModel model;
 	
 	private int gridSize = 50;
 	private int gridPadding = 5;
 	
-	private Map<Rectangle, Integer> imageBoundsMap;
+	private Map<Rectangle, Integer> imageBoundsMap = new HashMap<Rectangle, Integer>();
 
+    private boolean isDraggingEnabled = true;
+    private SelectionMode selectionMode = SelectionMode.NONE;
+    
+    private List<Object> selectedIDList = new ArrayList<Object>();
+    private List<SelectionListener> selectionListenerList = new ArrayList<SelectionListener>();
+    
 	public ImagePanel() {
 
-		imageBoundsMap = new HashMap<Rectangle, Integer>();
-		
         DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_COPY, this);        
 	}
+    
+    public void setDraggingEnabled(boolean enabled) {
+        isDraggingEnabled = enabled;
+    }
+    
+    public void setSelectionMode(SelectionMode mode) {
+        selectionMode = mode;
+        
+        selectedIDList.clear();
+        repaint();
+    }
 	
 	public void setModel(ImagePanelModel model) {
 		this.model = model;
@@ -76,6 +101,14 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 		}
 	}
 	
+    public void addSelectionListener(SelectionListener listener) {
+        selectionListenerList.add(listener);
+    }
+    
+    public void removeSelectionListener(SelectionListener listener) {
+        selectionListenerList.remove(listener);
+    }
+    
 	public boolean isOpaque() {
 		return true;
 	}
@@ -106,7 +139,15 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 			
 			g.drawRect(x, y, gridSize - 1, gridSize - 1);
 			
-			imageBoundsMap.put(new Rectangle(x, y, gridSize, gridSize), i);
+            Rectangle bounds = new Rectangle(x, y, gridSize, gridSize);
+			imageBoundsMap.put(bounds, i);
+            
+            // Selected
+            // TODO: Use the image border util
+            if (selectedIDList.contains(model.getID(i))) {
+                g.setColor(Color.blue);
+                g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+            }
 			
 			x += gridSize + gridPadding;
 			if (x > size.width - gridPadding - gridSize) {
@@ -115,7 +156,28 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 			}
 		}
 	}
+    
+    protected Object getImageIDAt(int x, int y) {
+        
+        for (Rectangle bounds : imageBoundsMap.keySet()) {
+            
+            if (bounds.contains(x, y)) {
+                return model.getID(imageBoundsMap.get(bounds));
+            }
+        }
+        
+        return null;
+    }
 
+    protected void fireSelectionEvent() {
+        
+        List<Object> selectionList = Collections.unmodifiableList(selectedIDList);
+        
+        for (int i = 0; i < selectionListenerList.size(); i++) {
+            selectionListenerList.get(i).selectionPerformed(selectionList);
+        }
+    }
+    
 	private Dimension constrainSize(Image image, int size) {
 		
 		int imageWidth = image.getWidth(this);
@@ -188,7 +250,7 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 	// DRAG GESTURE LISTENER
 	public void dragGestureRecognized(DragGestureEvent dge) {
 
-		if (model == null) {
+		if (model == null || !isDraggingEnabled) {
 			return;
 		}
 		
@@ -207,18 +269,43 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 	
 	////
 	// DRAG SOURCE LISTENER
-	public void dragDropEnd(DragSourceDropEvent dsde) {
-	}
+	public void dragDropEnd(DragSourceDropEvent dsde) {}
 	
-	public void dragEnter(DragSourceDragEvent dsde) {
-	}
+	public void dragEnter(DragSourceDragEvent dsde) {}
 	
-	public void dragExit(DragSourceEvent dse) {
-	}
+	public void dragExit(DragSourceEvent dse) {}
 	
-	public void dragOver(DragSourceDragEvent dsde) {
-	}
+	public void dragOver(DragSourceDragEvent dsde) {}
 	
-	public void dropActionChanged(DragSourceDragEvent dsde) {
-	}
+	public void dropActionChanged(DragSourceDragEvent dsde) {}
+    
+    ////
+    // MOUSE LISTENER
+    public void mouseClicked(MouseEvent e) {}
+    
+    public void mouseEntered(MouseEvent e) {}
+    
+    public void mouseExited(MouseEvent e) {}
+    
+    public void mousePressed(MouseEvent e) {
+        
+        if (selectionMode == SelectionMode.NONE) {
+            return;
+        }
+        
+        Object imageID = getImageIDAt(e.getX(), e.getY());
+        
+        // TODO: Handle shift too
+        if (!SwingUtil.isControlDown(e) || selectionMode == SelectionMode.SINGLE) {
+            selectedIDList.clear();
+        }
+        
+        if (imageID != null) {
+            selectedIDList.add(imageID);
+            
+            repaint();
+        }
+    }
+    
+    public void mouseReleased(MouseEvent e) {}
 }

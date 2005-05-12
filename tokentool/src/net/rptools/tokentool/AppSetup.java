@@ -22,16 +22,44 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
  * SOFTWARE.
  */
-package net.rptools.common.swing;
+package net.rptools.tokentool;
 
-import java.awt.Image;
-import java.awt.datatransfer.Transferable;
+import java.io.File;
+import java.io.IOException;
 
-public interface ImagePanelModel {
+import net.rptools.common.util.EnvUtil;
+import net.rptools.common.util.FileUtil;
 
-	public int getImageCount();
-    public Transferable getTransferable(int index);
-    public Object getID(int index);
-    public Image getImage(Object ID);
-	public Image getImage(int index);
+/**
+ * Executes only the first time the application is run.
+ */
+public class AppSetup {
+
+    public static void firstTime() {
+        
+        File appDir = EnvUtil.getApplicationDataDir(AppConstants.APP_NAME);
+        
+        // Only init once
+        if (appDir.exists()) {
+            return;
+        }
+        
+        try {
+            
+            appDir.mkdirs();
+            
+            // Create the overlay directory
+            File overlayDir = AppConstants.OVERLAY_DIR;
+            overlayDir.mkdirs();
+            
+            // Put in a couple samples
+            System.out.println("Copying resources");
+            FileUtil.saveResource("net/rptools/tokentool/image/overlay/circle_64.png", overlayDir);
+            FileUtil.saveResource("net/rptools/tokentool/image/overlay/circle_128.png", overlayDir);
+            
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+    
 }

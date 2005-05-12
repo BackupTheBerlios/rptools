@@ -22,16 +22,15 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
  * SOFTWARE.
  */
-package net.rptools.common.swing;
+package net.rptools.tokentool;
 
-import java.awt.Image;
-import java.awt.datatransfer.Transferable;
+import java.io.File;
 
-public interface ImagePanelModel {
+import net.rptools.common.util.EnvUtil;
 
-	public int getImageCount();
-    public Transferable getTransferable(int index);
-    public Object getID(int index);
-    public Image getImage(Object ID);
-	public Image getImage(int index);
+public class AppConstants {
+
+    public static final String APP_NAME = "tokenTool";
+    public static final File OVERLAY_DIR = new File(EnvUtil.getApplicationDataDir(AppConstants.APP_NAME) + File.separator + "overlays");
+    
 }

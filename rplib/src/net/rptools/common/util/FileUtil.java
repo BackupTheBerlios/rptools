@@ -24,11 +24,14 @@
  */
 package net.rptools.common.util;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 /**
@@ -43,6 +46,29 @@ public class FileUtil {
     public static byte[] loadResource(String resource) throws IOException {
         
         return getBytes(FileUtil.class.getClassLoader().getResourceAsStream(resource));
+    }
+    
+    public static void saveResource(String resource, File destDir) throws IOException {
+
+        int index = resource.lastIndexOf('/');
+        String filename = index >= 0 ? resource.substring(index+1) : resource;
+        
+        saveResource(resource, destDir, filename);
+    }
+
+    public static void saveResource(String resource, File destDir, String filename) throws IOException {
+        
+        File outFilename = new File(destDir + File.separator + filename);
+        
+        InputStream inStream = FileUtil.class.getClassLoader().getResourceAsStream(resource);
+        OutputStream outStream = new BufferedOutputStream(new FileOutputStream(outFilename));
+        
+        int data = 0;
+        while ((data = inStream.read()) != -1) {
+            outStream.write(data);
+        }
+        
+        outStream.close();
     }
     
     public static byte[] getBytes(URL url) throws IOException {

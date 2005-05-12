@@ -43,6 +43,7 @@ public class TokenTool {
             System.err.println("Exception during look and feel setup: " + e);
         }
 
+        AppSetup.firstTime();
         
         tokenToolFrame = new TokenToolFrame();
         tokenToolFrame.setVisible(true);

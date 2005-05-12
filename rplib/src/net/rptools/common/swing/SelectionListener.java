@@ -24,14 +24,9 @@
  */
 package net.rptools.common.swing;
 
-import java.awt.Image;
-import java.awt.datatransfer.Transferable;
+import java.util.List;
 
-public interface ImagePanelModel {
+public interface SelectionListener {
 
-	public int getImageCount();
-    public Transferable getTransferable(int index);
-    public Object getID(int index);
-    public Image getImage(Object ID);
-	public Image getImage(int index);
+    public void selectionPerformed(List<Object> selectedList);
 }
