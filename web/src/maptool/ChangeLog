@@ -1,4 +1,12 @@
-1.0M3 Changes and Features
+1.0M3 Changes and Features              released 12 May 2005
+    * Server menu to start or join server
+    * undo drawing elements
+    * asset panel restructured (tokens shown fully now)
+    * esc from drawing tool
+    * application response dramatically improved
+    * memory usage dramatically improved
+    * line width selection
+    * unbounded maps
     * Token hover size is thresholded
     * Select/Move multiple tokens at a time
     * Grid locks up when too small (fixed)
