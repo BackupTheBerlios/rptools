@@ -72,7 +72,7 @@ public class TokenToolFrame extends JFrame {
 		splitPane.setLeftComponent(new JScrollPane(new OverlayPanel()));
 		splitPane.setRightComponent(centerPanel);
 		
-        setJMenuBar(new MenuBar());
+        setJMenuBar(new AppMenuBar());
         add(BorderLayout.CENTER, splitPane);
 
         saveChooser = new JFileChooser();

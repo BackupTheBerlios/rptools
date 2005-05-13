@@ -40,6 +40,10 @@ import net.rptools.common.util.ImageUtil;
  * @author trevor
  */
 public class ImageBorder {
+    
+    public static final ImageBorder GRAY = new ImageBorder("net/rptools/common/swing/image/border/gray");
+    public static final ImageBorder RED = new ImageBorder("net/rptools/common/swing/image/border/red");
+    public static final ImageBorder WOOD = new ImageBorder("net/rptools/common/swing/image/border/wood");
 
 	private BufferedImage topRight;
 	private BufferedImage top;

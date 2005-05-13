@@ -44,7 +44,7 @@ public class OverlayPanelModel implements ImagePanelModel {
 		BufferedImage image = imageMap.get(imageFiles[index]);
 		if (image == null) {
 			try {
-				image = ImageUtil.getImage(imageFiles[index]);
+				image = TokenCompositor.translateOverlay(ImageUtil.getImage(imageFiles[index]));
 				imageMap.put(imageFiles[index], image);
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
@@ -54,4 +54,10 @@ public class OverlayPanelModel implements ImagePanelModel {
 		return image;
 	}
 
+    public String getCaption(int index) {
+        String name = imageFiles[index].getName();
+        int ext = name.lastIndexOf('.');
+        
+        return ext >= 0 ? name.substring(0, ext) : name;
+    }
 }

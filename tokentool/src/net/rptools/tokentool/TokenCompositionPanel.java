@@ -140,6 +140,7 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
     public void setOverlay(BufferedImage overlayImage) {
         this.overlayImage = overlayImage;
         composedOverlayImage = null;
+        overlayBounds = null;
         repaint();
         changeObservers.fireChangeEvent();
     }

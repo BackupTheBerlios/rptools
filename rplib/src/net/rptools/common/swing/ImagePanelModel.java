@@ -34,4 +34,5 @@ public interface ImagePanelModel {
     public Object getID(int index);
     public Image getImage(Object ID);
 	public Image getImage(int index);
+    public String getCaption(int index);
 }

@@ -26,7 +26,9 @@ package net.rptools.common.swing;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -69,10 +71,15 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 	private Map<Rectangle, Integer> imageBoundsMap = new HashMap<Rectangle, Integer>();
 
     private boolean isDraggingEnabled = true;
+    private boolean showCaptions = true;
+    private boolean showImageBorder = false;
+    
     private SelectionMode selectionMode = SelectionMode.NONE;
     
     private List<Object> selectedIDList = new ArrayList<Object>();
     private List<SelectionListener> selectionListenerList = new ArrayList<SelectionListener>();
+    
+    private int fontHeight;
     
 	public ImagePanel() {
 
@@ -91,6 +98,18 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
         repaint();
     }
 	
+    public void setShowCaptions(boolean enabled) {
+        showCaptions = enabled;
+        
+        repaint();
+    }
+    
+    public void setShowImageBorders(boolean enabled) {
+        showImageBorder = enabled;
+        
+        repaint();
+    }
+    
 	public ImagePanelModel getModel() {
 		return model;
 	}
@@ -121,7 +140,9 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 	protected void paintComponent(Graphics g) {
 
 		Dimension size = getSize();
-		
+		FontMetrics fm = g.getFontMetrics();
+        fontHeight = fm.getHeight();
+        
 		g.setColor(getBackground());
 		g.fillRect(0, 0, size.width, size.height);
 		
@@ -129,7 +150,6 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 			return;
 		}
 
-		g.setColor(Color.black);
 		
 		imageBoundsMap.clear();
 		
@@ -142,22 +162,45 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 
 			g.drawImage(image, x + (gridSize - dim.width)/2, y + (gridSize - dim.height)/2, dim.width, dim.height, this);
 			
-			g.drawRect(x, y, gridSize - 1, gridSize - 1);
-			
-            Rectangle bounds = new Rectangle(x-1, y-1, gridSize+1, gridSize+1);
-			imageBoundsMap.put(bounds, i);
-            
-            // Selected
-            // TODO: Use the image border util
-            if (selectedIDList.contains(model.getID(i))) {
-                g.setColor(Color.blue);
+            Rectangle bounds = new Rectangle(x, y, gridSize, gridSize);
+            imageBoundsMap.put(bounds, i);
+
+            // Image border
+            if (showImageBorder) {
+                g.setColor(Color.black);
                 g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
             }
 			
+            // Selected
+            if (selectedIDList.contains(model.getID(i))) {
+                // TODO: Let the user pick the border
+                ImageBorder.RED.paintAround((Graphics2D) g, bounds.x, bounds.y, bounds.width, bounds.height);
+            }
+			
+            // Caption
+            if (showCaptions) {
+
+                String caption = model.getCaption(i);
+                if (caption != null) {
+                
+                    int strWidth = fm.stringWidth(caption);
+                    int cx = x + (gridSize - strWidth) / 2;
+                    int cy = y + gridSize + fm.getHeight();
+                    
+                    g.setColor(getForeground());
+                    g.drawString(caption, cx, cy);
+                    System.out.println ("Writing caption at:" + cx + ", " + cy + " => " + caption + " - " + getForeground());
+                }
+            }
+            
+            // Line wrap
 			x += gridSize + gridPadding;
 			if (x > size.width - gridPadding - gridSize) {
 				x = gridPadding;
 				y += gridSize + gridPadding;
+                if (showCaptions) {
+                    y += fontHeight;
+                }
 			}
 		}
 	}
@@ -209,7 +252,7 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 	
 	public Dimension getPreferredSize() {
 		int width = getSize().width;
-		int height = (int)(model != null ? Math.ceil(model.getImageCount() / Math.floor(width / (gridSize + gridPadding))) * (gridSize + gridPadding) + gridPadding : gridSize + gridPadding);
+		int height = (int)(model != null ? Math.ceil(model.getImageCount() / Math.floor(width / (gridSize + gridPadding))) * (gridSize + gridPadding + fontHeight) + gridPadding : gridSize + gridPadding);
 		return new Dimension(width, height);
 	}
 	
