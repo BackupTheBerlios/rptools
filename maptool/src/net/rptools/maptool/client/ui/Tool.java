@@ -22,7 +22,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
  * SOFTWARE.
  */
-package net.rptools.maptool.client;
+package net.rptools.maptool.client.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,12 +36,9 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
-import javax.swing.JRootPane;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-
-import net.rptools.maptool.client.tool.drawing.RectangleTool;
 
 /**
  */
@@ -193,7 +190,7 @@ public abstract class Tool extends JToggleButton {
      * Perform the escape action on a tool.
      * 
      * @author jgorrell
-     * @version $Revision: 1.4 $ $Date: 2005/05/08 18:57:43 $ $Author: tcroft $
+     * @version $Revision: 1.1 $ $Date: 2005/05/13 20:13:19 $ $Author: tcroft $
      */
     private class EscapeAction extends AbstractAction {
 
