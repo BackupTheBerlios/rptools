@@ -42,17 +42,27 @@ on that later).
 
 <h3>Accumulating and Non-Accumulating rolls</h3>
 
+<p>
 We saw one form of an accumulating operator above, when we used 4[d8] in an
 expression.  The results table for this expression showed four lines, with a
 column keeping a running total.  Sometimes the running total is not
 appropriate.  To roll 4d8 and just give you the number for each roll use the
 <code>{}</code> syntax: <code>4{d8}</code>.
 
+<p>
+Separating expressions with ; gives you a non-accumulating sequence.  <code>d20+11;d8+4</code> will show you two results, one for each sub-expresion, and becauese it doesn't make sense to add these two rolls the <em>total</em> column will be blank.
+
+<p>
+Separating expressions with : gives you an accumulating sequence.  <code>d8+4:d6</code> will also show you two results, but the <em>total</em> column will show the accumulation.
+
 <h2>Extending with JavaScript</h2>
 <p>
 <A CLASS="external" HREF="dicetool/functions.js"><code>functions.js</code> is a JavaScript functions file</A> <a href="functions.html">What's This?</a><br>
 
-If you download this and put it in your ??
+<p>
+If you lauch dicetool using java web start we currently do not have a good
+way to get you the functions.js.  If you download the executable jar file you
+just need functions.js in the same directory to take advantage of it.
 
 
 <h2>Examples</h2>
