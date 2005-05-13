@@ -77,6 +77,7 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 	public ImagePanel() {
 
         DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_COPY, this);        
+		addMouseListener(this);
 	}
     
     public void setDraggingEnabled(boolean enabled) {
@@ -89,6 +90,10 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
         selectedIDList.clear();
         repaint();
     }
+	
+	public ImagePanelModel getModel() {
+		return model;
+	}
 	
 	public void setModel(ImagePanelModel model) {
 		this.model = model;
@@ -139,7 +144,7 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 			
 			g.drawRect(x, y, gridSize - 1, gridSize - 1);
 			
-            Rectangle bounds = new Rectangle(x, y, gridSize, gridSize);
+            Rectangle bounds = new Rectangle(x-1, y-1, gridSize+1, gridSize+1);
 			imageBoundsMap.put(bounds, i);
             
             // Selected
@@ -305,6 +310,8 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
             
             repaint();
         }
+		
+		fireSelectionEvent();
     }
     
     public void mouseReleased(MouseEvent e) {}

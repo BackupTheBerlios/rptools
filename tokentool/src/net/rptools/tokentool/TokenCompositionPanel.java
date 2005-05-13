@@ -108,7 +108,7 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         g.setColor(Color.black);
         g.fillRect(0, 0, size.width, size.height);
 
-        if (overlayBounds == null) {
+        if (overlayBounds == null && overlayImage != null) {
             overlayBounds = new Rectangle((size.width - composedOverlayImage.getWidth()) / 2, (size.height - composedOverlayImage.getHeight()) / 2, overlayImage.getWidth(), overlayImage.getHeight());
         }
         

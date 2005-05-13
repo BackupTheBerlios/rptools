@@ -33,7 +33,9 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
+import net.rptools.common.swing.JSplitPaneEx;
 import net.rptools.common.util.ImageUtil;
 
 public class TokenToolFrame extends JFrame {
@@ -45,7 +47,7 @@ public class TokenToolFrame extends JFrame {
     public TokenToolFrame() {
 
     	super("TokenTool");
-        setSize(400, 300);
+        setSize(650, 400);
         setLocation(50, 0); // TODO: make this more intelligent
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
@@ -56,23 +58,30 @@ public class TokenToolFrame extends JFrame {
         compositionPanel = new TokenCompositionPanel();
         compositionPanel.addChangeObserver(magnifiedPanel);
         
-        try { // TEMPORARY
-            compositionPanel.setOverlay(ImageUtil.getImage("net/rptools/tokentool/image/overlay/circle.png"));
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
+		JSplitPaneEx splitPane = new JSplitPaneEx();
+		splitPane.setOrientation(JSplitPaneEx.HORIZONTAL_SPLIT);
+		splitPane.setDividerLocation(150);
         
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.add(BorderLayout.NORTH, magnifiedPanel);
-        
+
+		JPanel centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(BorderLayout.CENTER, compositionPanel);
+        centerPanel.add(BorderLayout.EAST, rightPanel);
+		
+		splitPane.setLeftComponent(new JScrollPane(new OverlayPanel()));
+		splitPane.setRightComponent(centerPanel);
+		
         setJMenuBar(new MenuBar());
-        add(BorderLayout.CENTER, compositionPanel);
-        add(BorderLayout.EAST, rightPanel);
+        add(BorderLayout.CENTER, splitPane);
 
         saveChooser = new JFileChooser();
     }
 
+	public void setOverlay(BufferedImage image) {
+		compositionPanel.setOverlay(image);
+	}
+	
     public BufferedImage getComposedToken() {
         return compositionPanel.getComposedToken();
     }

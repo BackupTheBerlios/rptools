@@ -53,7 +53,6 @@ public class AppSetup {
             overlayDir.mkdirs();
             
             // Put in a couple samples
-            System.out.println("Copying resources");
             FileUtil.saveResource("net/rptools/tokentool/image/overlay/circle_64.png", overlayDir);
             FileUtil.saveResource("net/rptools/tokentool/image/overlay/circle_128.png", overlayDir);
             

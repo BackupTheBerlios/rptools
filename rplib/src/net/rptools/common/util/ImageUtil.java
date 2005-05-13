@@ -25,7 +25,6 @@
 package net.rptools.common.util;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -41,6 +40,7 @@ import java.awt.image.PixelGrabber;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -55,12 +55,26 @@ public class ImageUtil {
 	
 	private static GraphicsConfiguration graphicsConfig = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
 
+	public static final FilenameFilter SUPPORTED_IMAGE_FILE_FILTER = new FilenameFilter () {
+		
+		public boolean accept(File dir, String name) {
+
+			name = name.toLowerCase();
+			
+			return name.endsWith("png") ||
+					name.endsWith("gif") ||
+					name.endsWith("jpg") ||
+					name.endsWith("jpeg") ||
+					name.endsWith("bmp");
+		}
+	};
+	
 	public static void setGraphicsConfiguration(GraphicsConfiguration config) {
 		graphicsConfig = config;
 	}
 	
     public static BufferedImage getImage (File file) throws IOException {
-        return ImageIO.read(file);
+        return createCompatibleImage(bytesToImage(FileUtil.getBytes(file.toURL())));
     }
     
 	public static BufferedImage getImage(String image) throws IOException {
