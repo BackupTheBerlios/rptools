@@ -54,7 +54,7 @@ public class AppActions {
      
         {
             putValue(Action.NAME, "Save Token");
-            putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_MASK));
+            putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK));
         }
         
         public void actionPerformed(java.awt.event.ActionEvent e) {
