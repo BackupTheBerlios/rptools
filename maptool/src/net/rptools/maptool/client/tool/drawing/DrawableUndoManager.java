@@ -46,7 +46,7 @@ import net.rptools.maptool.server.MapToolServer;
  * This class controls the undo/redo behavior for drawables.
  * 
  * @author jgorrell
- * @version $Revision: 1.3 $ $Date: 2005/05/13 20:13:19 $ $Author: tcroft $
+ * @version $Revision: 1.4 $ $Date: 2005/05/13 22:25:06 $ $Author: tcroft $
  */
 public class DrawableUndoManager {
 
@@ -127,7 +127,7 @@ public class DrawableUndoManager {
    * Class used to undo/redo drawables. Only the drawing client can undo/redo their stuff.
    * 
    * @author jgorrell
-   * @version $Revision: 1.3 $ $Date: 2005/05/13 20:13:19 $ $Author: tcroft $
+   * @version $Revision: 1.4 $ $Date: 2005/05/13 22:25:06 $ $Author: tcroft $
    */
   private static class DrawableUndoableEdit extends AbstractUndoableEdit {
     
@@ -169,12 +169,14 @@ public class DrawableUndoManager {
       super.undo();
 
       // Tell the server to undo the drawable.
+      // TODO: This should actually just always remove it locally before sending to the server
+      // then the server should not rebroadcast back to us
       if (MapTool.isConnected()) {
-        MapTool.getConnection().callMethod(MapToolServer.COMMANDS.undoDraw.name(), zoneId, drawable.getId());
+          MapTool.serverCommand().undoDraw(zoneId, drawable.getId());
       } else {
-        Zone zone = MapTool.getCampaign().getZone(zoneId);
-        zone.removeDrawable(drawable.getId());		
-		MapTool.getFrame().repaint();
+          Zone zone = MapTool.getCampaign().getZone(zoneId);
+          zone.removeDrawable(drawable.getId());		
+	  	  MapTool.getFrame().repaint();
       }
     }
     
@@ -186,12 +188,14 @@ public class DrawableUndoManager {
       super.redo();
       
       // Render the drawable again, but don't add it to the undo manager.
+      // TODO: This should actually just always add it locally before sending to the server
+      // then the server should not rebroadcast back to us
       if (MapTool.isConnected()) {
-        MapTool.getConnection().callMethod(MapToolServer.COMMANDS.draw.name(), zoneId, pen, drawable);
+          MapTool.serverCommand().draw(zoneId, pen, drawable);
       } else {
-        Zone zone = MapTool.getCampaign().getZone(zoneId);
-        zone.addDrawable(new DrawnElement(drawable, pen));
-		MapTool.getFrame().repaint();
+          Zone zone = MapTool.getCampaign().getZone(zoneId);
+          zone.addDrawable(new DrawnElement(drawable, pen));
+		  MapTool.getFrame().repaint();
       } 
     }
   }
@@ -233,7 +237,7 @@ public class DrawableUndoManager {
    * Command to use when creating an redo draw menu item or button.
    * 
    * @author jgorrell
-   * @version $Revision: 1.3 $ $Date: 2005/05/13 20:13:19 $ $Author: tcroft $
+   * @version $Revision: 1.4 $ $Date: 2005/05/13 22:25:06 $ $Author: tcroft $
    */
   private class RedoCommand extends AbstractAction {
     
