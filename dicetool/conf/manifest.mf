@@ -1,2 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: com.jcuz.dnd.dmtool.DMTool
+Main-Class: net.rptools.dicetool.DiceTool
+Class-Path: 
+    lib/jep-2.3.0.jar
+    lib/js.jar.jar
