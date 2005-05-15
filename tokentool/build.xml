@@ -16,8 +16,9 @@
 			   target="1.5"
 			   source="1.5">
 			<classpath>
-				<pathelement location="lib/rplib-1.0.b0.jar" />
-				<pathelement location="lib/looks-1.3b1.jar" />
+				<fileset dir="lib">
+					<include name="**/*.jar"/>
+				</fileset>
 			</classpath>
 		</javac>
 	</target>
