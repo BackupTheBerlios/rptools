@@ -189,7 +189,6 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
                     
                     g.setColor(getForeground());
                     g.drawString(caption, cx, cy);
-                    System.out.println ("Writing caption at:" + cx + ", " + cy + " => " + caption + " - " + getForeground());
                 }
             }
             
