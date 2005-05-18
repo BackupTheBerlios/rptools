@@ -42,35 +42,24 @@ public class TokenToolFrame extends JFrame {
 
     private TokenCompositionPanel compositionPanel;
     private JFileChooser saveChooser;
-    private MagnifiedTokenPanel magnifiedPanel;
     
     public TokenToolFrame() {
 
     	super("TokenTool");
-        setSize(650, 400);
+        setSize(550, 400);
         setLocation(50, 0); // TODO: make this more intelligent
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         setLayout(new BorderLayout());
         
-        magnifiedPanel = new MagnifiedTokenPanel();
-
         compositionPanel = new TokenCompositionPanel();
-        compositionPanel.addChangeObserver(magnifiedPanel);
         
 		JSplitPaneEx splitPane = new JSplitPaneEx();
 		splitPane.setOrientation(JSplitPaneEx.HORIZONTAL_SPLIT);
-		splitPane.setDividerLocation(150);
+		splitPane.setDividerLocation(75);
         
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.add(BorderLayout.NORTH, magnifiedPanel);
-
-		JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(BorderLayout.CENTER, compositionPanel);
-        centerPanel.add(BorderLayout.EAST, rightPanel);
-		
 		splitPane.setLeftComponent(new JScrollPane(new OverlayPanel()));
-		splitPane.setRightComponent(centerPanel);
+		splitPane.setRightComponent(compositionPanel);
 		
         setJMenuBar(new AppMenuBar());
         add(BorderLayout.CENTER, splitPane);

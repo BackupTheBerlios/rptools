@@ -50,13 +50,14 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import net.rptools.common.ImageTransferable;
+import net.rptools.common.swing.PositionalLayout;
 import net.rptools.common.swing.SwingUtil;
 import net.rptools.common.util.ImageUtil;
 
-public class TokenCompositionPanel extends JComponent implements DropTargetListener, MouseListener, MouseMotionListener, MouseWheelListener {
+public class TokenCompositionPanel extends JPanel implements DropTargetListener, MouseListener, MouseMotionListener, MouseWheelListener {
 
     private BufferedImage overlayImage;
     private BufferedImage tokenImage;
@@ -77,6 +78,7 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
     private ChangeObservable changeObservers;
     
     public TokenCompositionPanel() {
+        setLayout(new PositionalLayout());
         
         // DnD
         new DropTarget(this, this);
@@ -86,6 +88,12 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
         addMouseWheelListener(this);
         
         changeObservers = new ChangeObservable();
+        
+        MagnifiedTokenPanel iconPanel = new MagnifiedTokenPanel();
+        iconPanel.setSize(64, 64);
+        add(iconPanel, PositionalLayout.Position.NE);
+        
+        addChangeObserver(iconPanel);
     }
 
     public void addChangeObserver(Observer observer) {
@@ -99,18 +107,13 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
     @Override
     protected void paintComponent(Graphics g) {
 
-        if (composedOverlayImage == null) {
-            composedOverlayImage = TokenCompositor.translateOverlay(overlayImage);
-        }
-        
         Dimension size = getSize();
         
         g.setColor(Color.black);
         g.fillRect(0, 0, size.width, size.height);
 
-        if (overlayBounds == null && overlayImage != null) {
-            overlayBounds = new Rectangle((size.width - composedOverlayImage.getWidth()) / 2, (size.height - composedOverlayImage.getHeight()) / 2, overlayImage.getWidth(), overlayImage.getHeight());
-        }
+        int messageY = 15;
+        int messageX = 5;
         
         // TOKEN
         if (tokenImage != null) {
@@ -118,9 +121,24 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
             int height = (int)(tokenImage.getHeight() * tokenScale);
 
             g.drawImage(tokenImage, tokenOffsetX, tokenOffsetY, width, height, this);
+        } else {
+            
+            g.setColor(Color.white);
+            g.drawString("Drag an image onto this pane", messageX, messageY);
+            messageY += 15;
         }
         
         // OVERLAY
+        if (overlayBounds == null && overlayImage != null) {
+            overlayBounds = new Rectangle((size.width - overlayImage.getWidth()) / 2, (size.height - overlayImage.getHeight()) / 2, overlayImage.getWidth(), overlayImage.getHeight());
+        } else if (overlayImage == null) {
+            
+            g.setColor(Color.white);
+            g.drawString("Select an overlay from the left", messageX, messageY);
+        }
+        if (composedOverlayImage == null) {
+            composedOverlayImage = TokenCompositor.translateOverlay(overlayImage);
+        }
         if (composedOverlayImage != null) {
             g.drawImage(composedOverlayImage, overlayBounds.x, overlayBounds.y, this);
         }
@@ -206,9 +224,12 @@ public class TokenCompositionPanel extends JComponent implements DropTargetListe
     public void mouseExited(MouseEvent e) {}
     public void mousePressed(MouseEvent e) {
         
-        isDraggingOverlay = overlayBounds.contains(e.getX(), e.getY());
         dragStartX = e.getX();
         dragStartY = e.getY();
+
+        if (overlayBounds != null) {
+            isDraggingOverlay = overlayBounds.contains(e.getX(), e.getY());
+        }
     }
     public void mouseReleased(MouseEvent e) {}
     

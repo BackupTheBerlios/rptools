@@ -24,7 +24,6 @@
  */
 package net.rptools.tokentool;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -38,14 +37,16 @@ import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceDropEvent;
 import java.awt.dnd.DragSourceEvent;
 import java.awt.dnd.DragSourceListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+import javax.swing.Timer;
 
 import net.rptools.common.FileListTransferable;
 import net.rptools.common.ImageTransferable;
@@ -53,6 +54,11 @@ import net.rptools.common.ImageTransferable;
 public class MagnifiedTokenPanel extends JComponent implements Observer, DragGestureListener, DragSourceListener {
 
     private static final Dimension PREFERRED_SIZE = new Dimension(150, 150);
+    private static final int REDRAW_DELAY = 100;
+    
+    private Timer redrawTimer;
+    
+    private BufferedImage iconImage;
     
     public MagnifiedTokenPanel() {
         DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_COPY, this);        
@@ -61,13 +67,20 @@ public class MagnifiedTokenPanel extends JComponent implements Observer, DragGes
     @Override
     protected void paintComponent(Graphics g) {
         
-        g.setColor(Color.white);
-        g.fillRect(0, 0, PREFERRED_SIZE.width, PREFERRED_SIZE.height);
+        Dimension size = getSize();
         
-        BufferedImage tokenImage = TokenTool.getFrame().getComposedToken();
+        BufferedImage tokenImage = getIconImage();
         if (tokenImage != null) {
-            g.drawImage(tokenImage, 0, 0, PREFERRED_SIZE.width, PREFERRED_SIZE.height, this);
+            g.drawImage(tokenImage, 0, 0, size.width, size.height, this);
         }
+    }
+    
+    private BufferedImage getIconImage() {
+        if (iconImage == null) {
+            iconImage = TokenTool.getFrame().getComposedToken();
+        }
+        
+        return iconImage;
     }
     
     @Override
@@ -83,7 +96,25 @@ public class MagnifiedTokenPanel extends JComponent implements Observer, DragGes
     ////
     // OBSERVER
     public void update(Observable o, Object arg) {
-        repaint();
+        
+        if (redrawTimer != null) {
+            return;
+        }
+        
+        redrawTimer = new Timer(REDRAW_DELAY, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                // Force a redraw of the icon
+                iconImage = null;
+                repaint();
+                
+                // Let a new timer start
+                redrawTimer = null;
+            }
+        });
+
+        redrawTimer.setRepeats(false);
+        redrawTimer.start();
     }
     
     ////
