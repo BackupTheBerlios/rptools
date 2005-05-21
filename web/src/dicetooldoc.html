@@ -9,7 +9,7 @@ DiceTool Documentation
 
 The <code>dicetool</code> window is broken into five main parts.<br>
 
-<a target="_new" href="dicetool/docs/images/Screenshot-new-tab-shown.png"><img align=right src="dicetool/docs/thumbs/Screenshot-new-tab-shown.jpg" height=243 width=150/></a>
+<a target="_new" href="dicetool/docs/images/dicetool-1.png"><img align=right src="dicetool/docs/thumbs/dicetool-1.jpg" height=243 width=150/></a>
 <ol>
 <li>The 9 "dice" buttons and the quantity pulldown.  (top left)  Use these to quickly roll $quantity d $dice.  5d6 is just a click and that can be changed to 15d6 in a blink.  One might use this for rolls that aren't on a button yet, perhaps that surprise wisdom check your GM just asked you to roll.
 <li>The results table.	(entire right)
@@ -36,7 +36,7 @@ When you roll with these simplified expressions <code>dicetool</code> will just
 show the single total.  To show each roll separately use something like
 <code>4[d8]+11</code>.  This works, but the last result is d8+11, which isn't
 perfect.  To make this result look better you can use the expression
-<code>4d8:11</code> which uses the accumulation operator <code>:</code> (more
+<code>4[d8]:11</code> which uses the accumulation operator <code>:</code> (more
 on that later).
 
 
@@ -50,10 +50,10 @@ appropriate.  To roll 4d8 and just give you the number for each roll use the
 <code>{}</code> syntax: <code>4{d8}</code>.
 
 <p>
-Separating expressions with ; gives you a non-accumulating sequence.  <code>d20+11;d8+4</code> will show you two results, one for each sub-expresion, and becauese it doesn't make sense to add these two rolls the <em>total</em> column will be blank.
+Separating expressions with <code>;</code> gives you a non-accumulating sequence.  <code>d20+11;d8+4</code> will show you two results, one for each sub-expresion, and because it doesn't make sense to add these two rolls the <em>total</em> column will be blank.
 
 <p>
-Separating expressions with : gives you an accumulating sequence.  <code>d8+4:d6</code> will also show you two results, but the <em>total</em> column will show the accumulation.
+Separating expressions with <code>:</code> gives you an accumulating sequence.  <code>d8+4:d6</code> will also show you two results, but the <em>total</em> column will show the accumulation.
 
 <h2>Extending with JavaScript</h2>
 <p>

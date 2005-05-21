@@ -8,19 +8,21 @@ MapTool Documentation
 <h2>Anatomy</h2>
 
 <p>
-<a href="maptool/docs/maptool.PNG" target="_new"><img align=right src="maptool/docs/maptool.jpg"/></a>
+<a href="maptool/docs/maptool-1.png" target="_new"><img align=right src="maptool/docs/maptool-1.jpg"/></a>
 The maptool screen comes up with four sections. Along the top is the toolbar.
-Along the left side is an Asset panel which will be filled in as you connect to
-servers or add Asset directories.  Along the bottom is a semi-transparent panel
-called your Zone panel.  Then the main panel which will soon contain the map,
-is blank.
+Along the left side is an Asset panel which shows you directories of images you might load to drag onto maptool as tokens.
+Along the bottom is your Zone panel showing maps that the server has loaded.
+Then the rest of the screen is taken up by your current map (highlighted in the zone panel).
 
 <p>
 The Zone and Asset panels can be hidden using the View menu (or the keyboard shortcuts <code>Z</code> and <code>A</code> respectively).
 
 <h2>Adding Maps</h2>
 
-<p>Adding maps can be done in three different ways.  The first is to choose File->Create Indefinite Map.  This creates a tiled background (green grassy looking background) on which you can use the drawtools to create your map.
+<p>Adding maps can be done in three different ways.  The first is to choose
+File->Create Indefinite Map.  This creates a tiled background (the green grassy
+looking background in the screenshot) on which you can use the drawtools to
+create your map.
 
 <p>The second way is to File->Load a map (Ctrl-L), which will bring up a file dialog for you to find and select an image to load.
 
@@ -28,7 +30,7 @@ The Zone and Asset panels can be hidden using the View menu (or the keyboard sho
 
 <h2>The Tools</h2>
 
-<img src="maptool/docs/toolbar.PNG"/>
+<img src="maptool/docs/toolbar.png"/>
 
 <p>
 The Toolbar contains the following tools.
@@ -125,6 +127,15 @@ use a map background with it's own grid, see the Grid section below for how to
 align the grid so that tokens line up properly.
 
 <p>
+You can scale and reposition the grid so that tokens line up with your
+gridlines.  Just pull down the <code>GM</code> menu to <code>Adjust Grid</code>
+and use the mouse-wheel to zoom (change the grid size) the left mouse button to
+reposition the grid, and the right mouse button to pan the map.  <em>For best
+results your grid squares should be perfect squares and all exactly the
+same size.  Some popular maps on the web are not, and tokens will not line up
+perfectly</em>.
+
+<p>
 Drawing tools do not snap to grid.
 
 <h4>undo/redo</h4>
@@ -132,16 +143,24 @@ maptool keeps track of all your drawing items and you can undo as many as you
 need to (use Edit->Undo or Ctrl-Z).  You can redo with Ctrl-Y if you undo too
 many.
 
+<p>
+Erase actions (described above under the drawing tools) are also in the undo
+stack and get undone/redone along with drawings.
+
 <h2>Client/Server</h2>
 
 <p>
-The Server menu has two options - Start Server or Connect to Server.  Choose Start server if you want to host for other people to connect to you.  You will automatically be connected to the new server instance -- so you will be asked to choose a Username to connect as.  
+The Server menu has two options - Start Server or Connect to Server.  Choose
+Start server if you want to host for other people to connect to you.  You will
+automatically be connected to the new server instance -- so you will be asked
+to choose a Username to connect as.  
 
 <p>
 By default maptool listens on port 4444.  To allow other people to connect to
 you after starting a server you will give them the IP address of your computer
 and the port number.  Finding your IP address is beyond the scope of this
-document (hint: ipconfig /all).
+document (hint: ipconfig /all).  Navigating proxies or firewalls is also beyond
+the scope of this document.
 
 <p>
 If you're joining someone else's server, Choose Connect to Server from the
