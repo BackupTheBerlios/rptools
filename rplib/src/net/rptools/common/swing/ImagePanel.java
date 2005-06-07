@@ -143,14 +143,13 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 		FontMetrics fm = g.getFontMetrics();
         fontHeight = fm.getHeight();
         
-		g.setColor(getBackground());
+        g.setColor(getBackground());
 		g.fillRect(0, 0, size.width, size.height);
 		
 		if (model == null) {
 			return;
 		}
 
-		
 		imageBoundsMap.clear();
 		
 		int x = gridPadding;
@@ -282,7 +281,8 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 	}
 	
 	public boolean getScrollableTracksViewportHeight() {
-		return false;
+        Dimension parentSize = SwingUtilities.getAncestorOfClass(JScrollPane.class, this).getSize();
+		return getPreferredSize().height < parentSize.height;
 	}
 	
 	public boolean getScrollableTracksViewportWidth() {
