@@ -25,8 +25,15 @@
 
 package net.rptools.tokentool;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+
+import net.rptools.common.util.FileUtil;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 
@@ -47,6 +54,16 @@ public class TokenTool {
         
         tokenToolFrame = new TokenToolFrame();
         tokenToolFrame.setVisible(true);
+    }
+    
+    public static void addOverlayImage(BufferedImage image) throws IOException {
+        ImageIO.write(image, "png", new File(AppConstants.OVERLAY_DIR + File.separator + System.currentTimeMillis() + ".png"));
+        
+    }
+    public static void addOverlayImage(File imageFile) throws IOException {
+        
+        FileUtil.copyFile(imageFile, new File(AppConstants.OVERLAY_DIR + File.separator + imageFile.getName()));
+        tokenToolFrame.getOverlayPanel().setModel(new OverlayPanelModel());
     }
     
     public static TokenToolFrame getFrame() {

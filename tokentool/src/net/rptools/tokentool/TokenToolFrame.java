@@ -42,6 +42,7 @@ public class TokenToolFrame extends JFrame {
 
     private TokenCompositionPanel compositionPanel;
     private JFileChooser saveChooser;
+    private OverlayPanel overlayPanel;
     
     public TokenToolFrame() {
 
@@ -53,12 +54,13 @@ public class TokenToolFrame extends JFrame {
         setLayout(new BorderLayout());
         
         compositionPanel = new TokenCompositionPanel();
+        overlayPanel = new OverlayPanel();
         
 		JSplitPaneEx splitPane = new JSplitPaneEx();
 		splitPane.setOrientation(JSplitPaneEx.HORIZONTAL_SPLIT);
 		splitPane.setDividerLocation(75);
         
-		splitPane.setLeftComponent(new JScrollPane(new OverlayPanel()));
+		splitPane.setLeftComponent(new JScrollPane(overlayPanel));
 		splitPane.setRightComponent(compositionPanel);
 		
         setJMenuBar(new AppMenuBar());
@@ -67,6 +69,10 @@ public class TokenToolFrame extends JFrame {
         saveChooser = new JFileChooser();
     }
 
+    public OverlayPanel getOverlayPanel() {
+        return overlayPanel;
+    }
+    
 	public void setOverlay(BufferedImage image) {
 		compositionPanel.setOverlay(image);
 	}
