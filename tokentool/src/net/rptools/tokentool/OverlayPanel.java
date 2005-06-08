@@ -102,6 +102,10 @@ public class OverlayPanel extends ImagePanel implements SelectionListener, DropT
     private final Action DELETE_ACTION = new AbstractAction() {
         
         public void actionPerformed(java.awt.event.ActionEvent e) {
+
+            if (!TokenTool.confirm("Are you sure you want to delete the selected overlay?")) {
+                return;
+            }
             
             List<Object> selectedIds = getSelectedIds();
             
