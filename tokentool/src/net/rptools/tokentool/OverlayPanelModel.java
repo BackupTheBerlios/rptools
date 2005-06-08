@@ -60,4 +60,8 @@ public class OverlayPanelModel implements ImagePanelModel {
         
         return ext >= 0 ? name.substring(0, ext) : name;
     }
+    
+    public File getFile(int index) {
+        return imageFiles[index];
+    }
 }
