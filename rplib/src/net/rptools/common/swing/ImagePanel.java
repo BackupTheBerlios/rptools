@@ -124,6 +124,12 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 			scrollPane.repaint();
 		}
 	}
+    
+    public List<Object> getSelectedIds() {
+        List<Object> list = new ArrayList<Object>();
+        list.addAll(selectedIDList);
+        return list;
+    }
 	
     public void addSelectionListener(SelectionListener listener) {
         selectionListenerList.add(listener);
