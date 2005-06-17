@@ -35,6 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import net.rptools.common.swing.FramePreferences;
 import net.rptools.common.swing.JSplitPaneEx;
 import net.rptools.common.util.ImageUtil;
 
@@ -67,6 +68,8 @@ public class TokenToolFrame extends JFrame {
         add(BorderLayout.CENTER, splitPane);
 
         saveChooser = new JFileChooser();
+        
+        addWindowListener(new FramePreferences(AppConstants.APP_NAME, this));
     }
 
     public OverlayPanel getOverlayPanel() {
