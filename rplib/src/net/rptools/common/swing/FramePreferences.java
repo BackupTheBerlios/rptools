@@ -76,39 +76,39 @@ public class FramePreferences extends WindowAdapter {
     ////
     // Preferences
 
-    public int getX() {
+    protected int getX() {
         return prefs.getInt(KEY_X, DEFAULT_X);
     }
 
-    public void setX(int x) {
+    protected void setX(int x) {
         prefs.putInt(KEY_X, x);
     }
 
-    public int getY() {
+    protected int getY() {
         return prefs.getInt(KEY_Y, DEFAULT_Y);
     }
 
-    public void setY(int y) {
+    protected void setY(int y) {
         prefs.putInt(KEY_Y, y);
     }
 
-    public int getWidth() {
+    protected int getWidth() {
         return prefs.getInt(KEY_WIDTH, DEFAULT_WIDTH);
     }
 
-    public void setWidth(int width) {
+    protected void setWidth(int width) {
         prefs.putInt(KEY_WIDTH, width);
     }
 
-    public int getHeight() {
+    protected int getHeight() {
         return prefs.getInt(KEY_HEIGHT, DEFAULT_HEIGHT);
     }
 
-    public void setHeight(int height) {
+    protected void setHeight(int height) {
         prefs.putInt(KEY_HEIGHT, height);
     }
     
-    private void storePreferences(JFrame frame) {
+    protected void storePreferences(JFrame frame) {
 
         setX(frame.getLocation().x);
         setY(frame.getLocation().y);
@@ -117,7 +117,7 @@ public class FramePreferences extends WindowAdapter {
         setHeight(frame.getSize().height);
     }
     
-    private void restorePreferences(JFrame frame) {
+    protected void restorePreferences(JFrame frame) {
         
         frame.setLocation(getX(), getY());
         frame.setSize(getWidth(), getHeight());
@@ -125,7 +125,7 @@ public class FramePreferences extends WindowAdapter {
     
     ////
     // WINDOW ADAPTER
-    public void windowClosing(WindowEvent e) {
+    public final void windowClosing(WindowEvent e) {
         
         storePreferences((JFrame) e.getSource());
     }
