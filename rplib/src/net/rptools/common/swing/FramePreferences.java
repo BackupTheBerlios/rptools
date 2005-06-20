@@ -31,6 +31,14 @@ import java.util.prefs.Preferences;
 
 import javax.swing.JFrame;
 
+/**
+ * Automatically keeps track of and restores frame size when opening/closing
+ * the application.
+ * 
+ * To use, simply add a line like this to you frame's constructor:
+ * 
+ *      addWindowListener(new FramePreferences(appName, this));
+ */
 public class FramePreferences extends WindowAdapter {
 
     private Preferences          prefs;
