@@ -104,6 +104,10 @@ public class ImageUtil {
      * @return
      */
     public static BufferedImage createCompatibleImage(Image img) {
+        if (img == null) {
+            return null;
+        }
+        
         return createCompatibleImage(img, img.getWidth(null), img.getHeight(null));
     }
 
