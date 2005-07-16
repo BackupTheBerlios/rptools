@@ -145,6 +145,8 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 	
 	protected void paintComponent(Graphics g) {
 
+		Rectangle clipBounds = g.getClipBounds();
+		
 		Dimension size = getSize();
 		FontMetrics fm = g.getFontMetrics();
         fontHeight = fm.getHeight();
@@ -164,21 +166,21 @@ public class ImagePanel extends JComponent implements Scrollable, DragGestureLis
 
 			Image image = model.getImage(i);
             
-            if (image != null) {
-    			Dimension dim = constrainSize(image, gridSize);
-    
-    			g.drawImage(image, x + (gridSize - dim.width)/2, y + (gridSize - dim.height)/2, dim.width, dim.height, this);
-            }
-            
             Rectangle bounds = new Rectangle(x, y, gridSize, gridSize);
             imageBoundsMap.put(bounds, i);
 
-            // Image border
-            if (showImageBorder) {
-                g.setColor(Color.black);
-                g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+            if (image != null && bounds.intersects(clipBounds)) {
+    			Dimension dim = constrainSize(image, gridSize);
+    
+    			g.drawImage(image, x + (gridSize - dim.width)/2, y + (gridSize - dim.height)/2, dim.width, dim.height, this);
+
+    			// Image border
+                if (showImageBorder) {
+                    g.setColor(Color.black);
+                    g.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+                }
             }
-			
+            
             // Selected
             if (selectedIDList.contains(model.getID(i))) {
                 // TODO: Let the user pick the border

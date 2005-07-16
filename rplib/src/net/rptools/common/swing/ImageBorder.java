@@ -114,6 +114,10 @@ public class ImageBorder {
 	
 	public void paintWithin(Graphics2D g, int x, int y, int width, int height) {
 		
+		if (!g.getClipBounds().intersects(x, y, width, height)) {
+			return;
+		}
+		
 		// Draw Corners
 		g.drawImage(topLeft, x + leftMargin - topLeft.getWidth(), y + topMargin - topLeft.getHeight(), null);
 		g.drawImage(topRight, x + width - rightMargin, y + topMargin - topRight.getHeight(), null);
@@ -121,6 +125,7 @@ public class ImageBorder {
 		g.drawImage(bottomRight, x + width - rightMargin, y + height - bottomMargin, null);
 		
 		// Draw top
+		
 		int i;
 		int max = width - rightMargin;
 		for (i = leftMargin; i < max - top.getWidth(); i += top.getWidth()) {
@@ -159,36 +164,5 @@ public class ImageBorder {
 	private int max(int i1, int i2, int i3) {
 		int bigger = i1 > i2 ? i1 : i2;
 		return bigger > i3 ? bigger : i3;
-	}
-	
-	public static void main(String[] args) {
-		
-		JFrame frame = new JFrame();
-		frame.setLocation(400, 400);
-		frame.setSize(400,400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(new JComponent() {
-		
-			ImageBorder border = new ImageBorder("net/rptools/maptool/client/image/border/default");
-
-			{
-				addMouseMotionListener(new MouseMotionAdapter() {
-					
-					public void mouseMoved(java.awt.event.MouseEvent e) {
-						System.out.println (e.getX() + "." + e.getY());
-					}
-				});
-			}
-			
-			protected void paintComponent(java.awt.Graphics g) {
-				
-				g.setColor(Color.red);
-				g.drawRect(24, 24, 202, 202);
-				
-				border.paintWithin((Graphics2D) g, 25, 25, 200, 200);
-			}
-		});
-		
-		frame.setVisible(true);
 	}
 }
