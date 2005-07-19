@@ -31,5 +31,5 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		<jar href="lib/rplib-1.0.b9.jar" />		
 	</resources>
 	
-	<application-desc main-class="net.rptools.maptool.client.MapToolClient" />
+	<application-desc main-class="net.rptools.maptool.client.MapTool" />
 </jnlp>
