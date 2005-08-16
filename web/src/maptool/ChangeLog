@@ -1,12 +1,15 @@
 1.0M4 Changes and Features              released 17 Aug 2005
-    * Asset movement measurement (and cookie crumbs)
-    * Large token movement is relative to upper left
-    * Pointer tool
-    * Background loading of asset images
+    * Asset movement measurement (and bread crumbs)
+    * Large token movement improvements (no longer tied to upper left)
+    * Pointing tool added (one can indicate a location on the map)
+    * Asset panel loading speed improvements
     * Can reconnect to server after disconnect
     * Asset groups persist across sessions
     * Asset panel can be refreshed with F5
     * Pen size across zoom levels is consistent
+    * UI Improvements
+    * Basic chat functionality added
+    * memory and performance improvements
 
 1.0M3 Changes and Features              released 12 May 2005
     * Server menu to start or join server
