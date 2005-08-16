@@ -23,7 +23,7 @@
 	<resources>
 		<j2se version="1.5+" java-vm-args="-Xms64m -Xmx128m"/>
 <?php
-		$dir = "lib";
+	function addJar($dir) {
 		if (is_dir($dir)) {
 			if ($dh = opendir($dir)) {
 				while (($file = readdir($dh)) !== false) {
@@ -33,6 +33,10 @@
 				}
 			}
 		}
+	}
+	
+	addJar("main-lib");
+	addJar("lib");
 ?>
 	</resources>
 	
