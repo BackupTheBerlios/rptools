@@ -22,8 +22,21 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
   <resources>
     <j2se version="1.5+" java-vm-args="-Xms64m -Xmx128m" />
-
-    <jar href="dicetool.jar"/>
+<?php
+    function addJar($dir) {
+        if (is_dir($dir)) {
+            if ($dh = opendir($dir)) {
+                while (($file = readdir($dh)) !== false) {
+                    if (@preg_match("/\.jar$/", $file)) {
+                        echo "\t\t<jar href=\"$dir/$file\" />\n";
+                    }
+                }
+            }
+        }
+    }
+    
+    addJar(".");
+?>
 
   </resources>
 

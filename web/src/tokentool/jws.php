@@ -21,11 +21,22 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 	</security>
 	
 	<resources>
-		<j2se version="1.5+" java-vm-args="-Xms64m -Xmx128m"/>
-		
-		<jar href="lib/tokentool-1.0M3.b4.jar" />
-		<jar href="lib/looks-1.3b1.jar" />		
-		<jar href="lib/rplib-1.0.b6.jar" />		
+		<j2se version="1.5+" java-vm-args="-Xms32m -Xmx128m"/>
+<?php
+    function addJar($dir) {
+        if (is_dir($dir)) {
+            if ($dh = opendir($dir)) {
+                while (($file = readdir($dh)) !== false) {
+                    if (@preg_match("/\.jar$/", $file)) {
+                        echo "\t\t<jar href=\"$dir/$file\" />\n";
+                    }
+                }
+            }
+        }
+    }
+    
+    addJar(".");
+?>
 	</resources>
 	
 	<application-desc main-class="net.rptools.tokentool.TokenTool" />
