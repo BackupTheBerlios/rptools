@@ -1,12 +1,12 @@
 <?php
-header("Content-type: application/x-java-jnlp-file");
-if ( $_REQUEST['debug'] ) {
-    header("Content-type: text/plain");
-}
-$bits = pathinfo( $_SERVER['REQUEST_URI'] );
-$base = sprintf("http://%s/",  $_SERVER['SERVER_NAME']);
-$self = sprintf("http://%s%s", $_SERVER['SERVER_NAME'],$bits['dirname']);
-echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+	header("Content-type: application/x-java-jnlp-file");
+	if ( $_REQUEST['debug'] ) {
+	    header("Content-type: text/plain");
+	}
+	$bits = pathinfo( $_SERVER['REQUEST_URI'] );
+	$base = sprintf("http://%s/",  $_SERVER['SERVER_NAME']);
+	$self = sprintf("http://%s%s", $_SERVER['SERVER_NAME'],$bits['dirname']);
+	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 ?>
 	<jnlp
     spec="1.5+" codebase="<? echo $self ?>">
@@ -22,13 +22,18 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 	
 	<resources>
 		<j2se version="1.5+" java-vm-args="-Xms64m -Xmx128m"/>
-		
-		<jar href="maptool-1.0M4.b10.jar" />
-		<jar href="lib/clientserver-1.0.b7.jar" />		
-		<jar href="lib/hessian-2.1.12.jar" />		
-		<jar href="lib/looks-1.3b1.jar" />		
-		<jar href="lib/withay-util.jar" />		
-		<jar href="lib/rplib-1.0.b9.jar" />		
+<?php
+		$dir = "lib";
+		if (is_dir($dir)) {
+			if ($dh = opendir($dir)) {
+				while (($file = readdir($dh)) !== false) {
+					if (@preg_match("/\.jar$/", $file)) {
+						echo "\t\t<jar href=\"$dir/$file\" />\n";
+					}
+				}
+			}
+		}
+?>
 	</resources>
 	
 	<application-desc main-class="net.rptools.maptool.client.MapTool" />
