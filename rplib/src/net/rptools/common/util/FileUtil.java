@@ -84,9 +84,15 @@ public class FileUtil {
         
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         
-        int b;
-        while ((b = inStream.read()) >= 0) {
-            outStream.write(b);
+        byte[] b = new byte[1024];
+        while (true) {
+            
+            int read = inStream.read(b);
+            if (read == 0 || read == -1) {break;}
+            
+            for (int i = 0; i < read; i++) {
+                outStream.write(b[i]);
+            }
         }
         
         return outStream.toByteArray();
