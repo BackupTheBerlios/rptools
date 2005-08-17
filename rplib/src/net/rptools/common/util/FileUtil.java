@@ -82,17 +82,14 @@ public class FileUtil {
             throw new IllegalArgumentException ("Input stream cannot be null");
         }
         
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream(10 * 1024); // 10k seems reasonable 
         
         byte[] b = new byte[1024];
         while (true) {
             
             int read = inStream.read(b);
             if (read == 0 || read == -1) {break;}
-            
-            for (int i = 0; i < read; i++) {
-                outStream.write(b[i]);
-            }
+            outStream.write(b, 0, read);
         }
         
         return outStream.toByteArray();
