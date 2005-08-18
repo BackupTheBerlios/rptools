@@ -35,9 +35,8 @@ echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         }
     }
 
-//  addJar("lib");    
+  addJar("lib");    
 ?>
-  <jar href="lib/dicetool.jar" />
   </resources>
 
   <application-desc main-class="com.jcuz.dnd.dmtool.DMTool"/>
