@@ -24,9 +24,12 @@
  */
 package net.rptools.common.swing;
 
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.MediaTracker;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.InputEvent;
@@ -38,9 +41,21 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import net.rptools.common.util.ImageUtil;
+
 /**
  */
 public class SwingUtil {
+    
+    private static Cursor emptyCursor;
+    
+    static {
+        try {
+            emptyCursor = Toolkit.getDefaultToolkit().createCustomCursor( ImageUtil.getImage("net/rptools/common/swing/image/empty.png"), new Point (0,0), "");
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
 
 	public static void centerOnScreen(Window window) {
 		
@@ -90,4 +105,25 @@ public class SwingUtil {
     	
     	//System.out.println ("Constraining " + oldW + "." + oldH + " to " + dim.width + "." + dim.height);
     }
+
+    /**
+     * Don't show the mouse pointer for this component
+     * @param component
+     */
+    public static void hidePointer ( Component component )
+    {
+        component.setCursor( emptyCursor );
+    }
+    
+    /**
+     * Set the mouse pointer for this component to the default system cursor
+     * 
+     * @param component
+     */
+    public static void showPointer ( Component component )
+    {
+        component.setCursor( Cursor.getDefaultCursor() );
+    }
+    
+    
 }
