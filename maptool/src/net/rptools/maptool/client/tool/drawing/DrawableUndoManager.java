@@ -40,13 +40,12 @@ import net.rptools.maptool.model.Zone;
 import net.rptools.maptool.model.drawing.Drawable;
 import net.rptools.maptool.model.drawing.DrawnElement;
 import net.rptools.maptool.model.drawing.Pen;
-import net.rptools.maptool.server.MapToolServer;
 
 /**
  * This class controls the undo/redo behavior for drawables.
  * 
  * @author jgorrell
- * @version $Revision: 1.4 $ $Date: 2005/05/13 22:25:06 $ $Author: tcroft $
+ * @version $Revision: 1.5 $ $Date: 2005/08/29 21:45:32 $ $Author: tcroft $
  */
 public class DrawableUndoManager {
 
@@ -127,7 +126,7 @@ public class DrawableUndoManager {
    * Class used to undo/redo drawables. Only the drawing client can undo/redo their stuff.
    * 
    * @author jgorrell
-   * @version $Revision: 1.4 $ $Date: 2005/05/13 22:25:06 $ $Author: tcroft $
+   * @version $Revision: 1.5 $ $Date: 2005/08/29 21:45:32 $ $Author: tcroft $
    */
   private static class DrawableUndoableEdit extends AbstractUndoableEdit {
     
@@ -237,7 +236,7 @@ public class DrawableUndoManager {
    * Command to use when creating an redo draw menu item or button.
    * 
    * @author jgorrell
-   * @version $Revision: 1.4 $ $Date: 2005/05/13 22:25:06 $ $Author: tcroft $
+   * @version $Revision: 1.5 $ $Date: 2005/08/29 21:45:32 $ $Author: tcroft $
    */
   private class RedoCommand extends AbstractAction {
     
