@@ -1,5 +1,9 @@
-1.0M4 Changes and Features              released 17 Aug 2005
-    * Asset movement measurement (and bread crumbs)
+1.0M4 Changes and Features              released 31 Aug 2005
+    * Mouse pointer is now hidden while moving tokens
+    * Moving a Token shows the path and distance travelled
+    * Token waypoints (right-click to set)
+    * New Measurement tool (based on token movement with path and waypoints)
+    * Clients with the GM tag are now allowed to create invisible tokens
     * Large token movement improvements (no longer tied to upper left)
     * Pointing tool added (one can indicate a location on the map)
     * Asset panel loading speed improvements
