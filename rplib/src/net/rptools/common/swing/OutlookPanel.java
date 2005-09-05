@@ -24,6 +24,7 @@
  */
 package net.rptools.common.swing;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -123,17 +124,17 @@ public class OutlookPanel extends JPanel {
     public void paint(Graphics g) {
         int y = 0;
 
-        Rectangle bounds = g.getClipBounds();
+        Dimension size = getSize();
 
         g.setColor(getBackground());
-        g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+        g.fillRect(0, 0, size.width, size.height);
 
         // TODO: This can be pulled out and put in a layout manager
         for (int count = 0; count < m_compList.size(); count++) {
             JButtonEx button = m_compList.get(count);
 
             // Position the button
-            button.setBounds(0, y, bounds.width, BUTTON_HEIGHT);
+            button.setBounds(0, y, size.width, BUTTON_HEIGHT);
 
             // Update
             y += BUTTON_HEIGHT;
@@ -144,7 +145,7 @@ public class OutlookPanel extends JPanel {
                 int height = getSize().height - (m_compList.size() * BUTTON_HEIGHT);
 
                 // Stretch to take the available space
-                button.m_component.setBounds(5, y, bounds.width - 6, height - 2);
+                button.m_component.setBounds(5, y, size.width - 6, height - 2);
                 button.m_component.revalidate();
 
                 y += height;
