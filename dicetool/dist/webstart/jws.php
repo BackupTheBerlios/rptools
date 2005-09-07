@@ -53,5 +53,5 @@
 ?>
 	</resources>
 	
-	<application-desc main-class="net.rptools.maptool.client.MapTool" />
+    <application-desc main-class="com.jcuz.dnd.dmtool.DMTool"/>
 </jnlp>
