@@ -47,4 +47,5 @@ TD#backgrounded {
 }
 A:link, A:active, A:visited { color: blue; text-decoration: none; }
 A:hover { text-decoration: underline; }
-
+IMG:screenshot { align: top; }
+BR:clear { clear: left; }
