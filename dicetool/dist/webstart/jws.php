@@ -12,7 +12,7 @@
 	<jnlp
     spec="1.5+" codebase="<? echo $self ?>">
 	<information>
-		<title>RPTools MapTool</title>
+		<title>RPTools DiceTool</title>
 		<vendor><? echo $base ?></vendor>
 		<offline-allowed/>
 	</information>
@@ -38,11 +38,13 @@
     # we match the jarfile name to the directory 
     for($i=0;$i<count($files);$i++) {
         $basename = substr($files[$i],0,strpos($files[$i],"-"));
+        if ( $basename !== "" ) {
         if ( strpos(getcwd(),$basename) !== false ) {
 #            print "$i : $files[$i] : $basename\n";
             $filename = $files[$i];
             unset($files[$i]);
             array_unshift($files,$filename);
+        }
         }
     }
         
