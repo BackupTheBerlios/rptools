@@ -53,5 +53,5 @@
 ?>
 	</resources>
 	
-    <application-desc main-class="com.jcuz.dnd.dmtool.DMTool"/>
+    <application-desc main-class="net.rptools.dicetool.DiceTool"/>
 </jnlp>
