@@ -176,14 +176,19 @@ public class ClientConnection extends AbstractConnection {
         }
 
         public void run() {
-            try {
                 while (!stopRequested) {
-                    byte[] message = conn.readMessage(in);
-                    conn.dispatchMessage(conn.id, message);
+
+                    try {
+                        byte[] message = conn.readMessage(in);
+                    	conn.dispatchMessage(conn.id, message);
+                    } catch (IOException e) {
+                        fireDisconnect();
+                        break;
+                    }  catch (Throwable t) {
+                		// don't let anything kill this thread via exception
+                		t.printStackTrace();
+                	}
                 }
-            } catch (IOException e) {
-                fireDisconnect();
-            }
 
         }
     }

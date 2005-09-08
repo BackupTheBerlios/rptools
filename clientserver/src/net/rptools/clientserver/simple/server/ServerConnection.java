@@ -262,7 +262,12 @@ public class ServerConnection extends AbstractConnection implements MessageHandl
                 while (queue.size() > 0) {
                     Message msg = queue.remove(0);
 
-                    server.handleMessage(msg.id, msg.message);
+                    try {
+                    	server.handleMessage(msg.id, msg.message);
+                    } catch (Throwable t) {
+                    	// Don't let anything kill this thread
+                    	t.printStackTrace();
+                    }
                 }
 
                 synchronized (this) {
